@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: ec658437b28feb84e8917ae4e46f444f
+timeCreated: 1472217005
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: CeilingBeams_01
+    100002: CeilingBeams_02
+    100004: CeilingPart_01
+    100006: CeilingPart_02
+    100008: CeilingPart_03
+    100010: FloorPart_01
+    100012: FloorPart_02
+    100014: FloorPart_03
+    100016: FloorPart_04
+    100018: FloorPart_05
+    100020: FloorPart_06
+    100022: LogoUU_Engels
+    100024: //RootNode
+    100026: ReceptionDesk_01
+    100028: ReceptionDesk_02
+    100030: ReceptionDesk_03
+    100032: StairPart_01
+    100034: StairPart_02
+    100036: WallDisplay
+    100038: WallElement_01
+    100040: WallElement_02
+    100042: WallElement_Light
+    100044: WallPart_01
+    100046: WallPart_02
+    100048: WallPart_03
+    100050: WallPart_04
+    100052: WallPart_05
+    100054: WallPart_06
+    100056: WindowPart_01
+    400000: CeilingBeams_01
+    400002: CeilingBeams_02
+    400004: CeilingPart_01
+    400006: CeilingPart_02
+    400008: CeilingPart_03
+    400010: FloorPart_01
+    400012: FloorPart_02
+    400014: FloorPart_03
+    400016: FloorPart_04
+    400018: FloorPart_05
+    400020: FloorPart_06
+    400022: LogoUU_Engels
+    400024: //RootNode
+    400026: ReceptionDesk_01
+    400028: ReceptionDesk_02
+    400030: ReceptionDesk_03
+    400032: StairPart_01
+    400034: StairPart_02
+    400036: WallDisplay
+    400038: WallElement_01
+    400040: WallElement_02
+    400042: WallElement_Light
+    400044: WallPart_01
+    400046: WallPart_02
+    400048: WallPart_03
+    400050: WallPart_04
+    400052: WallPart_05
+    400054: WallPart_06
+    400056: WindowPart_01
+    2300000: CeilingBeams_01
+    2300002: CeilingBeams_02
+    2300004: CeilingPart_01
+    2300006: CeilingPart_02
+    2300008: CeilingPart_03
+    2300010: FloorPart_01
+    2300012: FloorPart_02
+    2300014: FloorPart_03
+    2300016: FloorPart_04
+    2300018: FloorPart_05
+    2300020: FloorPart_06
+    2300022: LogoUU_Engels
+    2300024: ReceptionDesk_01
+    2300026: ReceptionDesk_02
+    2300028: ReceptionDesk_03
+    2300030: StairPart_01
+    2300032: StairPart_02
+    2300034: WallDisplay
+    2300036: WallElement_01
+    2300038: WallElement_02
+    2300040: WallElement_Light
+    2300042: WallPart_01
+    2300044: WallPart_02
+    2300046: WallPart_03
+    2300048: WallPart_04
+    2300050: WallPart_05
+    2300052: WallPart_06
+    2300054: WindowPart_01
+    3300000: CeilingBeams_01
+    3300002: CeilingBeams_02
+    3300004: CeilingPart_01
+    3300006: CeilingPart_02
+    3300008: CeilingPart_03
+    3300010: FloorPart_01
+    3300012: FloorPart_02
+    3300014: FloorPart_03
+    3300016: FloorPart_04
+    3300018: FloorPart_05
+    3300020: FloorPart_06
+    3300022: LogoUU_Engels
+    3300024: ReceptionDesk_01
+    3300026: ReceptionDesk_02
+    3300028: ReceptionDesk_03
+    3300030: StairPart_01
+    3300032: StairPart_02
+    3300034: WallDisplay
+    3300036: WallElement_01
+    3300038: WallElement_02
+    3300040: WallElement_Light
+    3300042: WallPart_01
+    3300044: WallPart_02
+    3300046: WallPart_03
+    3300048: WallPart_04
+    3300050: WallPart_05
+    3300052: WallPart_06
+    3300054: WindowPart_01
+    4300000: CeilingPart_01
+    4300002: WallPart_05
+    4300004: ReceptionDesk_02
+    4300006: ReceptionDesk_01
+    4300008: FloorPart_04
+    4300010: FloorPart_01
+    4300012: ReceptionDesk_03
+    4300014: WallPart_02
+    4300016: WallPart_03
+    4300018: FloorPart_02
+    4300020: WallPart_01
+    4300022: FloorPart_03
+    4300024: CeilingPart_03
+    4300026: FloorPart_05
+    4300028: WallDisplay
+    4300030: WallElement_02
+    4300032: WallElement_Light
+    4300034: CeilingPart_02
+    4300036: StairPart_02
+    4300038: StairPart_01
+    4300040: FloorPart_06
+    4300042: WindowPart_01
+    4300044: WallPart_06
+    4300046: WallPart_04
+    4300048: CeilingBeams_01
+    4300050: CeilingBeams_02
+    4300052: WallElement_01
+    4300054: LogoUU_Engels
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

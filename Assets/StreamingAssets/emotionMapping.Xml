@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<EmotionMapping>
+  <ATTR>
+    <Emotion>Sad</Emotion>
+    <BlendShape>
+      <Index>7</Index>
+      <Weight>51.64835</Weight>
+    </BlendShape>
+  </ATTR>
+  <ATTR>
+    <Emotion>Angry</Emotion>
+    <BlendShape>
+      <Index>9</Index>
+      <Weight>61.0989</Weight>
+    </BlendShape>
+  </ATTR>
+  <ATTR>
+    <Emotion>Happy</Emotion>
+    <BlendShape>
+      <Index>6</Index>
+      <Weight>54.28571</Weight>
+    </BlendShape>
+  </ATTR>
+  <ATTR>
+    <Emotion>Neutral</Emotion>
+    <BlendShape>
+      <Index>0</Index>
+      <Weight>0</Weight>
+    </BlendShape>
+  </ATTR>
+</EmotionMapping>
