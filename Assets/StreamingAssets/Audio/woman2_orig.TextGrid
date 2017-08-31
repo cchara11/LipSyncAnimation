@@ -1,0 +1,203 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 12.288 
+tiers? <exists> 
+size = 2 
+item []: 
+    item [1]:
+        class = "IntervalTier" 
+        name = "word" 
+        xmin = 0 
+        xmax = 12.288 
+        intervals: size = 47 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.23713299227456466 
+            text = "" 
+        intervals [2]:
+            xmin = 0.23713299227456466 
+            xmax = 0.5072052917786668 
+            text = "The" 
+        intervals [3]:
+            xmin = 0.5072052917786668 
+            xmax = 0.7743870295309786 
+            text = "simplest" 
+        intervals [4]:
+            xmin = 0.7743870295309786 
+            xmax = 0.9316046195708274 
+            text = "" 
+        intervals [5]:
+            xmin = 0.9316046195708274 
+            xmax = 1.263407730390153 
+            text = "method" 
+        intervals [6]:
+            xmin = 1.263407730390153 
+            xmax = 1.44088381292142 
+            text = "is" 
+        intervals [7]:
+            xmin = 1.44088381292142 
+            xmax = 1.5720617869662699 
+            text = "to" 
+        intervals [8]:
+            xmin = 1.5720617869662699 
+            xmax = 1.8575667892991778 
+            text = "mix" 
+        intervals [9]:
+            xmin = 1.8575667892991778 
+            xmax = 2.0427592232448477 
+            text = "the" 
+        intervals [10]:
+            xmin = 2.0427592232448477 
+            xmax = 2.405427739721785 
+            text = "medicine" 
+        intervals [11]:
+            xmin = 2.405427739721785 
+            xmax = 2.6446346335682756 
+            text = "with" 
+        intervals [12]:
+            xmin = 2.6446346335682756 
+            xmax = 3.18477923257648 
+            text = "butter" 
+        intervals [13]:
+            xmin = 3.18477923257648 
+            xmax = 3.354538963693344 
+            text = "or" 
+        intervals [14]:
+            xmin = 3.354538963693344 
+            xmax = 3.532015046224611 
+            text = "some" 
+        intervals [15]:
+            xmin = 3.532015046224611 
+            xmax = 3.771221940071102 
+            text = "other" 
+        intervals [16]:
+            xmin = 3.771221940071102 
+            xmax = 4.265068430592888 
+            text = "grease" 
+        intervals [17]:
+            xmin = 4.265068430592888 
+            xmax = 4.419395458880946 
+            text = "and" 
+        intervals [18]:
+            xmin = 4.419395458880946 
+            xmax = 4.751198569700272 
+            text = "smear" 
+        intervals [19]:
+            xmin = 4.751198569700272 
+            xmax = 4.897809246573928 
+            text = "it" 
+        intervals [20]:
+            xmin = 4.897809246573928 
+            xmax = 5.005838166375568 
+            text = "on" 
+        intervals [21]:
+            xmin = 5.005838166375568 
+            xmax = 5.198746951735641 
+            text = "the" 
+        intervals [22]:
+            xmin = 5.198746951735641 
+            xmax = 5.4688192512397436 
+            text = "nose" 
+        intervals [23]:
+            xmin = 5.4688192512397436 
+            xmax = 5.630862630942205 
+            text = "of" 
+        intervals [24]:
+            xmin = 5.630862630942205 
+            xmax = 5.823771416302278 
+            text = "the" 
+        intervals [25]:
+            xmin = 5.823771416302278 
+            xmax = 6.101560067220783 
+            text = "animal" 
+        intervals [26]:
+            xmin = 6.101560067220783 
+            xmax = 6.263603446923244 
+            text = "from" 
+        intervals [27]:
+            xmin = 6.263603446923244 
+            xmax = 6.556824800670555 
+            text = "time" 
+        intervals [28]:
+            xmin = 6.556824800670555 
+            xmax = 6.626271963400182 
+            text = "to" 
+        intervals [29]:
+            xmin = 6.626271963400182 
+            xmax = 7.066103994021148 
+            text = "time" 
+        intervals [30]:
+            xmin = 7.066103994021148 
+            xmax = 7.89175359536226 
+            text = "" 
+        intervals [31]:
+            xmin = 7.89175359536226 
+            xmax = 8.385600085884047 
+            text = "naturally" 
+        intervals [32]:
+            xmin = 8.385600085884047 
+            xmax = 8.563076168415314 
+            text = "it" 
+        intervals [33]:
+            xmin = 8.563076168415314 
+            xmax = 8.717403196703373 
+            text = "will" 
+        intervals [34]:
+            xmin = 8.717403196703373 
+            xmax = 8.94889373913546 
+            text = "lick" 
+        intervals [35]:
+            xmin = 8.94889373913546 
+            xmax = 9.095504416009115 
+            text = "the" 
+        intervals [36]:
+            xmin = 9.095504416009115 
+            xmax = 9.334711309855607 
+            text = "grease" 
+        intervals [37]:
+            xmin = 9.334711309855607 
+            xmax = 9.658798069260529 
+            text = "off" 
+        intervals [38]:
+            xmin = 9.658798069260529 
+            xmax = 9.990601180079855 
+            text = "" 
+        intervals [39]:
+            xmin = 9.990601180079855 
+            xmax = 10.175793614025524 
+            text = "and" 
+        intervals [40]:
+            xmin = 10.175793614025524 
+            xmax = 10.330120642313583 
+            text = "in" 
+        intervals [41]:
+            xmin = 10.330120642313583 
+            xmax = 10.538462130502461 
+            text = "this" 
+        intervals [42]:
+            xmin = 10.538462130502461 
+            xmax = 10.785385375763354 
+            text = "way" 
+        intervals [43]:
+            xmin = 10.785385375763354 
+            xmax = 10.95514510688022 
+            text = "will" 
+        intervals [44]:
+            xmin = 10.95514510688022 
+            xmax = 11.310097271942753 
+            text = "swallow" 
+        intervals [45]:
+            xmin = 11.310097271942753 
+            xmax = 11.456707948816408 
+            text = "the" 
+        intervals [46]:
+            xmin = 11.456707948816408 
+            xmax = 12.151179576112671 
+            text = "medicine" 
+        intervals [47]:
+            xmin = 12.151179576112671 
+            xmax = 12.288 
+            text = "" 
+    

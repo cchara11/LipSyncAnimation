@@ -52,7 +52,12 @@ public class SSMLGenerator
 
         // text to be spoken
         XmlNode textNode = xmlDoc.CreateElement("p");
-        textNode.AppendChild(xmlDoc.CreateTextNode(text));
+        XmlNode prosodyNode = xmlDoc.CreateElement("prosody");
+        XmlAttribute prosodyRate = xmlDoc.CreateAttribute("rate");
+        prosodyRate.Value = "x-slow";
+        prosodyNode.Attributes.Append(prosodyRate);
+        prosodyNode.AppendChild(xmlDoc.CreateTextNode(text));
+        textNode.AppendChild(prosodyNode);
         speakNode.AppendChild(textNode);
 
         xmlDoc.Save(PathManager.getDataPath("textToSpeak.Xml"));

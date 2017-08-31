@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,15 +14,19 @@ using UnityEngine;
 
 public class PhonemeInfo
 {
-    public float starting_time { get; private set; }
-    public float ending_time { get; private set; }
-    public Phoneme? phoneme { get; private set; }
+    public float starting_time { get; set; }
+    public float ending_time { get; set; }
+    public Phoneme? phoneme { get; set; }
+    public bool apex { get; set; } 
+    public float influence { get; set; }
 
     public PhonemeInfo(float starting_time, float ending_time, string phoneme)
     {
         this.starting_time = starting_time;
         this.ending_time = ending_time;
         this.phoneme = MapPhoneme(phoneme);
+        apex = false;
+        influence = GetPhonemicInfluence();
     }
 
     public PhonemeInfo(float starting_time, float ending_time, Phoneme phoneme)
@@ -29,8 +34,43 @@ public class PhonemeInfo
         this.starting_time = starting_time;
         this.ending_time = ending_time;
         this.phoneme = phoneme;
+        apex = false;
+        influence = GetPhonemicInfluence();
     }
 
+    public float GetPhonemicInfluence()
+    {
+        // calculate influence
+        if (Enum.IsDefined(typeof(LipHeavy), phoneme.ToString()))
+        {
+            // stronger influence on lip-heavy visemes
+            return 1;
+        }
+        else if (Enum.IsDefined(typeof(LipLight), phoneme.ToString()))
+        {
+            // lower influence on lip-light visemes (nasals, tongue-only, obsturents)
+            return 0.3f;
+        }
+        else if (phoneme.Equals(Phoneme.Schwa))
+        {
+            // strong influence on lexically stressed vowels
+            return 1f;
+        }
+        else if (Enum.IsDefined(typeof(Vowel), phoneme.ToString()))
+        {
+            // middle influence on rest
+            return 0.8f;
+        }
+        else if (Enum.IsDefined(typeof(Consonant), phoneme.ToString()))
+        {
+            // middle influence on rest
+            return 0.1f;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     /// <summary>
     /// Maps CereVoice phonemes to the defined phonemes of the lip sync component
     /// </summary>
@@ -127,6 +167,8 @@ public class PhonemeInfo
             default:
                 return Phoneme.Rest;
         }
+
+
     }
 
 }

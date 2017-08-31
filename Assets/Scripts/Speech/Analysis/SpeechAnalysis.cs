@@ -131,7 +131,7 @@ public class SpeechAnalysis : MonoBehaviour
                 }
             }
 
-            LipSync.prosody = prosodicFeatures;
+            MyLipSync.prosody = prosodicFeatures;
 
         }
 
@@ -178,7 +178,7 @@ public class SpeechAnalysis : MonoBehaviour
 
                         if (Regex.IsMatch(text, @"^[a-zA-Z]+$"))
                         {
-                            Word word = new Word(text, float.Parse(wordInfo[0]), float.Parse(wordInfo[1]));
+                            Word word = new Word(float.Parse(wordInfo[0]), float.Parse(wordInfo[1]), text);
                             currentWords.Add(word);
                         }
                     }
@@ -242,7 +242,7 @@ public class SpeechAnalysis : MonoBehaviour
     public float GetMaximumFrequency()
     {
         float maxFrequency = float.MinValue;
-        foreach (ProsodyComponent pc in LipSync.prosody)
+        foreach (ProsodyComponent pc in MyLipSync.prosody)
         {
             if (maxFrequency < pc.F0)
             {
@@ -256,7 +256,7 @@ public class SpeechAnalysis : MonoBehaviour
     public float GetMinimumFrequency()
     {
         float minFrequency = float.MaxValue;
-        foreach (ProsodyComponent pc in LipSync.prosody)
+        foreach (ProsodyComponent pc in MyLipSync.prosody)
         {
             if (minFrequency > pc.F0 && pc.F0 != 0)
             {
@@ -271,7 +271,7 @@ public class SpeechAnalysis : MonoBehaviour
     {
         float sum = 0;
         int count = 0;
-        foreach (ProsodyComponent pc in LipSync.prosody)
+        foreach (ProsodyComponent pc in MyLipSync.prosody)
         {
             sum += pc.F0;
             count++;

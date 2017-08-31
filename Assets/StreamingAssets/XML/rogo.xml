@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<LipSyncData>
+  <version>1.3</version>
+  <transcript>Hello world, how are you?</transcript>
+  <phonemes>
+    <marker time="0.5 " intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="1.04 " intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.098 " intensity="1" sustain="False" phoneme="E" />
+    <marker time="1.166 " intensity="1" sustain="False" phoneme="L" />
+    <marker time="1.285 " intensity="1" sustain="False" phoneme="U" />
+    <marker time="1.385 " intensity="1" sustain="False" phoneme="WQ" />
+    <marker time="1.4515 " intensity="1" sustain="False" phoneme="E" />
+    <marker time="1.502 " intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.577 " intensity="1" sustain="False" phoneme="L" />
+    <marker time="1.707 " intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.827 " intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="1.926729 " intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="2.026729 " intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.136229 " intensity="1" sustain="False" phoneme="AI" />
+    <marker time="2.216729 " intensity="1" sustain="False" phoneme="E" />
+    <marker time="2.267729 " intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.347729 " intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.497729 " intensity="1" sustain="False" phoneme="U" />
+    <marker time="3.097729 " intensity="1" sustain="False" phoneme="Rest" />
+  </phonemes>
+  <emotions />
+  <gestures />
+</LipSyncData>

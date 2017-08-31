@@ -10,7 +10,7 @@ public class Word
     public List<float> intervals;
     public List<float> frequencies;
 
-    public Word(string text, float startingInterval, float endingInterval)
+    public Word(float startingInterval, float endingInterval, string text)
     {
         this.text = text;
         this.startingInterval = startingInterval;

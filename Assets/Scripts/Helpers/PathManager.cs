@@ -18,10 +18,19 @@ public static class PathManager
         return Application.streamingAssetsPath + "/" + file;
     }
 
+    public static string getXMLDataPath(string file)
+    {
+        return Application.streamingAssetsPath + "/XML/" + file;
+    }
+
     public static string getAudioPath(string file)
     {
-        //return Application.dataPath + "/Audio/" + file;
         return Application.streamingAssetsPath + "/Audio/" + file;
+    }
+
+    public static string getSEMAINPath(string file)
+    {
+        return Application.streamingAssetsPath + "/SEMAINE/Sessions/2/" + file;
     }
 
     public static string getCereVoicePath(string file)
@@ -42,5 +51,15 @@ public static class PathManager
     public static string getOpenSmileDataPath(string file)
     {
         return Application.streamingAssetsPath + "/OpenSmile/data/" + file;
+    }
+
+    public static string getRogoDigitalPath(string file)
+    {
+        return Application.dataPath + "/Rogo Digital/LipSync Pro/Examples/Audio/" + file;
+    }
+
+    public static string getEmotionPath(string file)
+    {
+        return Application.streamingAssetsPath + "/Emotions/" + file;
     }
 }

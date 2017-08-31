@@ -21,6 +21,7 @@ public class TTS : MonoBehaviour
     public InputField inputText;
     public string inputFileName = "textToSpeak.xml";
     SSMLGenerator ssml;
+    public static int audioLength;
 
     /// <summary>
     /// generates input file in SSML format according to the input text
@@ -46,6 +47,7 @@ public class TTS : MonoBehaviour
         {
             Console.WriteLine("ERROR: Please enter text");
         }
+        
 
     }
 
@@ -133,6 +135,7 @@ public class TTS : MonoBehaviour
 
                 // audio duration for each part
                 sw.WriteLine(String.Format("INFO: wav_mk {0}, wav_done {1}", cerevoice_eng.CPRC_abuf_wav_mk(abuf), cerevoice_eng.CPRC_abuf_wav_done(abuf)));
+                audioLength += cerevoice_eng.CPRC_abuf_wav_done(abuf);
 
                 foreach (int i in Enumerable.Range(0, cerevoice_eng.CPRC_abuf_trans_sz(abuf)))
                 {
@@ -168,8 +171,6 @@ public class TTS : MonoBehaviour
         {
             print(e);
         }
-
-        
         
     }
 }

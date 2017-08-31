@@ -19,7 +19,7 @@ public static class XMLGenerator
     /// </summary>
     /// <param name="mappingList">List containing phoneme to blendshape mappings</param>
     /// <param name="includeWeight">Whether to include weight or not</param>
-    public static void GeneratePhonemeXML(List<PhonemeBlendShape> mappingList, bool includeWeight)
+    public static void GeneratePhonemeXML(List<PhonemeBlendShape> mappingList, bool includeWeight, string modelName)
     {
         XmlDocument xmlDoc = new XmlDocument();
 
@@ -67,7 +67,7 @@ public static class XMLGenerator
             
         }
 
-        xmlDoc.Save(PathManager.getDataPath("phonemeMapping.Xml"));
+        xmlDoc.Save(PathManager.getXMLDataPath(modelName + "-phonemeMapping.Xml"));
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public static class XMLGenerator
     /// with Unity's inspector.
     /// </summary>
     /// <param name="mappingList">List containing diphone to phoneme mappings</param>
-    public static void GenerateDiphonesXML(List<DiphonePhonemes> mappingList)
+    public static void GenerateDiphonesXML(List<DiphonePhonemes> mappingList, string modelName)
     {
         XmlDocument xmlDoc = new XmlDocument();
 
@@ -113,7 +113,7 @@ public static class XMLGenerator
 
         }
 
-        xmlDoc.Save(PathManager.getDataPath("diphoneMapping.Xml"));
+        xmlDoc.Save(PathManager.getXMLDataPath(modelName + "-diphoneMapping.Xml"));
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public static class XMLGenerator
     /// </summary>
     /// <param name="mappingList"></param>
     /// <param name="includeWeight"></param>
-    public static void GenerateEmotionsXML(List<EmotionBlendShape> mappingList, bool includeWeight)
+    public static void GenerateEmotionsXML(List<EmotionBlendShape> mappingList, bool includeWeight, string modelName)
     {
         XmlDocument xmlDoc = new XmlDocument();
 
@@ -171,7 +171,8 @@ public static class XMLGenerator
 
         }
 
-        xmlDoc.Save(PathManager.getDataPath("emotionMapping.Xml"));
+        xmlDoc.Save(PathManager.getXMLDataPath(modelName + "-emotionMapping.Xml"));
     }
+    
 
 }

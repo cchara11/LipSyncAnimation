@@ -17,8 +17,7 @@ public class CoarticulationEnhancement
 {
     // TODO 
     // check for pauses
-    // if two consecutive phonemes are the same, merge them into a long one
-    // check for lexically stressed words
+    // check for lexically stressed words - Schwa
     // lip-heavy visemes
     // neighboring visemes influence each other (tongue-only visemes)
     
@@ -27,7 +26,7 @@ public class CoarticulationEnhancement
     /// </summary>
     /// <param name="phonemes">Phoneme List</param>
     /// <param name="diphonePhonemes">Dictionary containing the corresponding mapping between diphones and phonemes</param>
-    /// <returns></returns>
+    /// <returns>The new list with the dynamic visemes</returns>
     public static List<PhonemeInfo> AddDynamicVisemes(List<PhonemeInfo> phonemes, Dictionary<Phoneme, List<Phoneme>> diphonePhonemes)
     {
         List<PhonemeInfo> enhancedList = new List<PhonemeInfo>();
@@ -56,6 +55,7 @@ public class CoarticulationEnhancement
                     {
                         weight = 0.50f;
                     }
+                    
                     List<Phoneme> diphones = diphonePhonemes[(Phoneme)phonemes[i].phoneme];
                     float firstDiphoneDuration = duration * weight;
                     enhancedList.Add(new PhonemeInfo(phonemes[i].starting_time, phonemes[i].starting_time + firstDiphoneDuration, diphones[0]));
@@ -65,8 +65,41 @@ public class CoarticulationEnhancement
             }
         }
 
+        //foreach (PhonemeInfo pi in enhancedList)
+        //{
+        //    Debug.Log(pi.phoneme);
+        //}
+
         return enhancedList;
     }
-    
+
+    /// <summary>
+    /// merges duplicated continuous phoneme in to a big one for cohesion
+    /// </summary>
+    /// <param name="phonemes">Phoneme List</param>
+    /// <returns>the new list without the duplicated phonemes</returns>
+    public static List<PhonemeInfo> RemoveDuplicates(List<PhonemeInfo> phonemes)
+    {
+        List<PhonemeInfo> distinctPhonemes = new List<PhonemeInfo>();
+
+        foreach (PhonemeInfo p in phonemes)
+        {
+            if (distinctPhonemes.Count == 0 || !distinctPhonemes[distinctPhonemes.Count - 1].phoneme.Equals(p.phoneme))
+            {
+                distinctPhonemes.Add(p);
+            }
+            else
+            {
+                distinctPhonemes[distinctPhonemes.Count - 1].ending_time = p.ending_time;
+            }
+        }
+
+        return distinctPhonemes;
+    }
+
+    public static void CalculateOnsetOffset(List<PhonemeInfo> phonemes)
+    {
+
+    }
 
 }
