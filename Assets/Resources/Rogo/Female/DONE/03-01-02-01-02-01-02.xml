@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LipSyncData>
+  <version>1.3</version>
+  <transcript>dogs are sitting by the door</transcript>
+  <length>3.837167</length>
+  <phonemes>
+    <marker time="0.505" intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="1.03" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.2" intensity="1" sustain="False" phoneme="O" />
+    <marker time="1.37" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.465" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.58" intensity="1" sustain="False" phoneme="E" />
+    <marker time="1.71" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.835" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.89" intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="1.985" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.075" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.105" intensity="1" sustain="False" phoneme="MBP" />
+    <marker time="2.165" intensity="1" sustain="False" phoneme="AI" />
+    <marker time="2.255" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.335" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.385" intensity="1" sustain="False" phoneme="E" />
+    <marker time="2.455" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.61" intensity="1" sustain="False" phoneme="O" />
+    <marker time="2.755" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="3.32" intensity="1" sustain="False" phoneme="Rest" />
+  </phonemes>
+  <emotions />
+  <gestures />
+</LipSyncData>

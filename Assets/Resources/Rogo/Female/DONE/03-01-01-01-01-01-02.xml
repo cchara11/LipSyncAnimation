@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LipSyncData>
+  <version>1.3</version>
+  <transcript>kids are talking by the door</transcript>
+  <length>3.636958</length>
+  <phonemes>
+    <marker time="0" intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="1.02" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.1" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.23" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.27" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.32" intensity="1" sustain="False" phoneme="Rest" />
+    <marker time="1.41" intensity="1" sustain="False" phoneme="E" />
+    <marker time="1.51" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.6" intensity="1" sustain="False" phoneme="O" />
+    <marker time="1.8" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.85" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.88" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.97" intensity="1" sustain="False" phoneme="MBP" />
+    <marker time="2.01" intensity="1" sustain="False" phoneme="AI" />
+    <marker time="2.1" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.18" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.24" intensity="1" sustain="False" phoneme="E" />
+    <marker time="2.27" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.36" intensity="1" sustain="False" phoneme="O" />
+    <marker time="2.56" intensity="1" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.61" intensity="1" sustain="False" phoneme="Rest" />
+  </phonemes>
+  <emotions />
+  <gestures />
+</LipSyncData>

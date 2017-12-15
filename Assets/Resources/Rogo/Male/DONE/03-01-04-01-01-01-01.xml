@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LipSyncData>
+  <version>1.3</version>
+  <transcript>kids are talking by the door</transcript>
+  <length>3.837167</length>
+  <phonemes>
+    <marker time="0.5" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="Rest" />
+    <marker time="1.05" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.17" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.255" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.34" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.48" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="E" />
+    <marker time="1.6" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.735" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="O" />
+    <marker time="1.845" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.89" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="1.985" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.115" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="Rest" />
+    <marker time="2.19" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="MBP" />
+    <marker time="2.235" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="AI" />
+    <marker time="2.285" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.345" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.395" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="E" />
+    <marker time="2.46" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="2.595" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="O" />
+    <marker time="2.705" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="CDGKNRSThYZ" />
+    <marker time="3.285" intensity="1" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" sustain="False" phoneme="Rest" />
+  </phonemes>
+  <emotions />
+  <gestures />
+</LipSyncData>

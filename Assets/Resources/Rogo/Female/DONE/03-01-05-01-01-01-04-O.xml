@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Exported from Rogo Digital LipSync Pro 1.3. Exported at 12/3/2017 12:23:15 PM-->
+<!--Note: This format cannot directly reference the linked AudioClip like a LipSyncData asset can. It is advised that you use that format instead unless you need to process the data further outside of Unity.-->
+<LipSyncData>
+	<version>1.3</version>
+	<transcript />
+	<length>3.703708</length>
+	<phonemes>
+		<marker time="0.97" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="CDGKNRSThYZ" />
+		<marker time="1.07" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="AI" />
+		<marker time="1.31" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="CDGKNRSThYZ" />
+		<marker time="1.41" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="CDGKNRSThYZ" />
+		<marker time="1.58" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="AI" />
+		<marker time="1.74" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="CDGKNRSThYZ" />
+		<marker time="1.8" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="E" />
+		<marker time="1.87" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="CDGKNRSThYZ" />
+		<marker time="2.03" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="E" />
+		<marker time="2.12" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="CDGKNRSThYZ" />
+		<marker time="2.4" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="L" />
+		<marker time="2.56" intensity="1" sustain="False" useRandomness="False" intensityRandomness="0.1" blendableRandomness="0.3" bonePositionRandomness="0.3" boneRotationRandomness="0.3" phoneme="U" />
+	</phonemes>
+	<emotions />
+	<gestures />
+</LipSyncData>
