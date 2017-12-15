@@ -38,7 +38,7 @@ public class CircumplexModel : MonoBehaviour {
     private List<BaseEmotion> fillEmotions()
     {
         List <BaseEmotion> emotions = new List<BaseEmotion>();
-        string emotionsData = PathManager.getEmotionPath("dimensions.txt");
+        string emotionsData = PathManager.GetEmotionPath("dimensions.txt");
         
         using (StreamReader reader = new StreamReader(emotionsData))
         {

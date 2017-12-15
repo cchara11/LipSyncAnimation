@@ -67,7 +67,7 @@ public static class XMLGenerator
             
         }
 
-        xmlDoc.Save(PathManager.getXMLDataPath(modelName + "-phonemeMapping.Xml"));
+        xmlDoc.Save(PathManager.GetXMLDataPath(modelName + "-phonemeMapping.Xml"));
     }
 
     /// <summary>
@@ -113,7 +113,8 @@ public static class XMLGenerator
 
         }
 
-        xmlDoc.Save(PathManager.getXMLDataPath(modelName + "-diphoneMapping.Xml"));
+        //xmlDoc.Save(PathManager.GetXMLDataPath("diphoneMapping.Xml"));
+        xmlDoc.Save(PathManager.GetXMLDataPath(modelName + "-diphoneMapping.Xml"));
     }
 
     /// <summary>
@@ -171,7 +172,7 @@ public static class XMLGenerator
 
         }
 
-        xmlDoc.Save(PathManager.getXMLDataPath(modelName + "-emotionMapping.Xml"));
+        xmlDoc.Save(PathManager.GetXMLDataPath(modelName + "-emotionMapping.Xml"));
     }
     
 

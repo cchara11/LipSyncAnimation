@@ -1,33 +1,74 @@
-﻿using System.Diagnostics;
-using System;
+﻿using System;
 using System.IO;
+using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
-public class SpeechAnalysis : MonoBehaviour
+///-----------------------------------------------------------------
+///   Class:        SpeechAnalysis.cs
+///   Description:  Class responsible for audio analysis 
+///   Author:       Constantinos Charalambous     Date: 28/11/2017
+///   Notes:        Lip Sync Animation
+///-----------------------------------------------------------------
+
+public class SpeechAnalysis
 {
-    string inputFileUrl, textGridFile, pitchFile;
-    string currentClipName;
-    List<Word> currentWords;
+    string inputFileUrl, textGridFile, pitchFile, decibelFile, frequencyFile, frequencyAverageFile, decibelAverageFile;
+    string currentClipName, audioName;
+    List<WordInformation> currentWords;
+    public List<PhonemeInformation> phonemeTimings;
+    private MyLipSync[] lipSyncComponents;
 
-    // pitch
-    public static float pitchMedian;
+    // frequencies and decibels
+    Dictionary<float, float> frequencies;
+    Dictionary<float, float> decibels;
 
+    enum AudioFeature
+    {
+        Pitch,
+        Intensity
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="currentClipName"></param>
+    /// <param name="phonemeTimings"></param>
+    public SpeechAnalysis(string currentClipName, List<PhonemeInformation> phonemeTimings)
+    {
+        this.currentClipName = currentClipName;
+        lipSyncComponents = (MyLipSync[])GameObject.FindObjectsOfType(typeof(MyLipSync));
+        this.phonemeTimings = phonemeTimings;
+
+        // files for debugging
+        frequencyFile = PathManager.GetResourcesPath("frequenciesOpen.txt");
+        frequencyAverageFile = PathManager.GetResourcesPath("frequenciesAverageOpen.txt");
+        decibelFile = PathManager.GetResourcesPath("decibelsOpen.txt");
+        decibelAverageFile = PathManager.GetResourcesPath("decibelsAverageOpen.txt");
+    }
+
+    void Initialize()
+    {
+        frequencies = new Dictionary<float, float>();
+        decibels = new Dictionary<float, float>();
+    }
     /// <summary>
     /// configure arguments for ttscallback process
     /// </summary>
-    List<string> ConfigureArguments(AudioClip clip)
+    List<string> ConfigureArguments()
     {
         List<string> cmd_arguments = new List<string>();
         // add command arguments for tts_callback proces
         cmd_arguments = new List<string>();
         cmd_arguments.Add("-C"); // configuration argument
-        cmd_arguments.Add(PathManager.getOpenSmileConfigPath("prosodyAcf.conf")); // prosody config path
+        cmd_arguments.Add(PathManager.GetOpenSmileConfigPath("prosodyAcf.conf")); // prosody config path
         cmd_arguments.Add("-I"); // input argument
-        cmd_arguments.Add(PathManager.getAudioPath(clip.name + ".wav")); // input audio path
+        cmd_arguments.Add(PathManager.GetAudioResourcesPath(SceneManager.GetActiveScene().name + "/" + audioName + ".wav")); // input audio path
         cmd_arguments.Add("-csvoutput"); // output argument
-        cmd_arguments.Add(PathManager.getOpenSmileDataPath("prosody_" + clip.name + ".csv")); // output file path
+        cmd_arguments.Add(PathManager.GetAudioResourcesPath(SceneManager.GetActiveScene().name + "/" + "prosody_" + audioName + ".csv")); // output file path
         return cmd_arguments;
     }
 
@@ -35,28 +76,12 @@ public class SpeechAnalysis : MonoBehaviour
     /// analyzes audio using OpenSmile process (SMILExtract_Release.exe), and produces prosodic features
     /// </summary>
     /// <param name="args"></param>
-    public void AnalyzeAudio(AudioClip clip)
+    public void AnalyzeAudio()
     {
-        // set current audio clip
-        currentClipName = clip.name;
-
-        // play audio at first
-        AudioSource audio = GetComponent<AudioSource>();
-        audio.clip = clip;
-        audio.Play();
-
-        List<string> args = ConfigureArguments(clip);
-
-        // check if an old version of the output file exists
-        inputFileUrl = PathManager.getOpenSmileDataPath("prosody_" + clip.name + ".csv");
-        textGridFile = PathManager.getAudioPath(currentClipName + ".TextGrid");
-        pitchFile = PathManager.getAudioPath(currentClipName + "_pitch.txt");
-
-        if (File.Exists(inputFileUrl))
-        {
-            File.Delete(inputFileUrl);
-        }
-
+        audioName = currentClipName.Replace(".wav", "");
+        inputFileUrl = PathManager.GetAudioResourcesPath(SceneManager.GetActiveScene().name + "/" + "prosody_" + audioName + ".csv");
+        List<string> args = ConfigureArguments();
+        
         // build input arguments into a single string
         string arguments = "";
         foreach (string s in args)
@@ -72,7 +97,7 @@ public class SpeechAnalysis : MonoBehaviour
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = PathManager.getOpenSmilePath("SMILExtract_Release.exe"),
+                    FileName = PathManager.GetOpenSmilePath("SMILExtract_Release.exe"),
                     Arguments = arguments,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
@@ -88,29 +113,41 @@ public class SpeechAnalysis : MonoBehaviour
         }
         catch (Exception e)
         {
-            print(e);
+            UnityEngine.Debug.Log(e);
         }
     }
 
+    /// <summary>
+    /// On process exit continue with feature calculation
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ProcessExited(object sender, System.EventArgs e)
     {
-        //CalculateProsodicFeatures();
-        GetWordBoundaries();
-        GetPitchInformation();
-        pitchMedian = GetPitchMedian();
+        Initialize();
+        CalculateProsodicFeatures();
+        GetIndividualFrequencies();
+        GetIndividualDecibels();
+        SetPhonemeTimings();
+        foreach (MyLipSync mls in lipSyncComponents)
+        {
+            mls.RearrangePhonemeTimings();
+        }
     }
 
+    /// <summary>
+    /// Calculate prosodic features (frequency, intensity) from OpenSmile output file
+    /// </summary>
     public void CalculateProsodicFeatures()
     {
-        List<ProsodyComponent> prosodicFeatures;
-        float timestamp, F0, voicingProbability, loudness;
+        float timestamp, F0, loudness;
+        //float voicingProbability;
         String line;
 
         try
         {
             using (StreamReader sr = new StreamReader(inputFileUrl))
             {
-                prosodicFeatures = new List<ProsodyComponent>();
                 if (!sr.EndOfStream)
                 {
                     // skip first line containing text information
@@ -122,178 +159,338 @@ public class SpeechAnalysis : MonoBehaviour
                     line = sr.ReadLine();
                     String[] lineContents = line.Split(';');
                     timestamp = float.Parse(lineContents[1]);
-                    voicingProbability = float.Parse(lineContents[2]);
+                    //voicingProbability = float.Parse(lineContents[2]);
                     F0 = float.Parse(lineContents[3]);
                     loudness = float.Parse(lineContents[4]);
 
-                    ProsodyComponent prosody = new ProsodyComponent(timestamp, voicingProbability, F0, loudness);
-                    prosodicFeatures.Add(prosody);
+                    try
+                    {
+                        frequencies.Add((float)Math.Round(timestamp,2), F0);
+                        decibels.Add((float)Math.Round(timestamp, 2), loudness);
+                    }
+                    catch(ArgumentException e)
+                    {}
                 }
             }
 
-            MyLipSync.prosody = prosodicFeatures;
-
+            MyLipSync.frequencies = frequencies;
+            MyLipSync.decibels = decibels;
+            
         }
 
         catch (Exception e)
         {
-            print("ERROR: Could not read file " + inputFileUrl);
-            print(e);
+            UnityEngine.Debug.Log("ERROR: Could not read file " + inputFileUrl);
+            UnityEngine.Debug.Log(e);
         }
 
-        print("AUDIO: " + inputFileUrl);
-        print("MAX: " + GetMaximumFrequency());
-        print("MIN: " + GetMinimumFrequency());
-        print("AVERAGE: " + GetAverageFrequency());
-
+        
     }
 
     /// <summary>
-    /// Retrieve word boundaries from praat generated textgrid
+    /// Get Individual mean frequency values for each phoneme
     /// </summary>
-    public void GetWordBoundaries()
+    public void GetIndividualFrequencies()
     {
-        currentWords = new List<Word>();
-        String line;
+        float individualFrequency, individualCount, frequency, meanVowelPitch, meanConsonantPitch;
+        float minVowelPitch = float.MaxValue, maxVowelPitch = float.MinValue, minConsonantPitch = float.MaxValue, maxConsonantPitch = float.MinValue;
 
-        try
+        using (StreamWriter sw = new StreamWriter(frequencyFile))
         {
-            using (StreamReader sr = new StreamReader(textGridFile))
+            sw.WriteLine("time frequency phoneme");
+
+            foreach (PhonemeInformation pi in phonemeTimings)
             {
-                while (!sr.EndOfStream)
+                if (Enum.IsDefined(typeof(Vowel), pi.text.ToString()))
                 {
-                    line = sr.ReadLine();
-                    // parse textgrid file
-                    if (line.Contains("intervals") && line.Contains("["))
+                    individualFrequency = 0;
+                    individualCount = 0;
+
+                    var frequencyElements = frequencies.Where(s => s.Key >= pi.startingInterval && s.Key <= pi.endingInterval).ToDictionary(dict => dict.Key, dict => dict.Value);
+
+                    foreach (KeyValuePair<float, float> el in frequencyElements)
                     {
-                        String[] wordInfo = new String[3];
-                        for (int i = 0; i < wordInfo.Length; i++)
+                        frequency = el.Value;
+                        sw.WriteLine(el.Key + " " + frequency + " " + pi.text);
+                        if (frequency == 0)
                         {
-                            line = sr.ReadLine();
-                            String[] lineContents = line.Split('=');
-                            wordInfo[i] = lineContents[1];
+                            continue;
                         }
+                        individualFrequency += frequency;
+                        individualCount += 1.0f;
 
-                        string text = wordInfo[2].Trim().Replace("\"", "");
-
-                        if (Regex.IsMatch(text, @"^[a-zA-Z]+$"))
+                        // find max and min vowel frequency 
+                        if (maxVowelPitch < frequency)
                         {
-                            Word word = new Word(float.Parse(wordInfo[0]), float.Parse(wordInfo[1]), text);
-                            currentWords.Add(word);
+                            maxVowelPitch = frequency;
                         }
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            print("ERROR: Could not read textgrid file " + textGridFile);
-            print(e);
-        }
-
-    }
-
-    public void GetPitchInformation()
-    {
-        String line;
-
-        try
-        {
-            using (StreamReader sr = new StreamReader(pitchFile))
-            {
-                if (!sr.EndOfStream)
-                {
-                    // skip first line containing text information
-                    sr.ReadLine();
-                }
-
-                while (!sr.EndOfStream)
-                {
-                    line = sr.ReadLine();
-                    String[] lineContents = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    float interval = float.Parse(lineContents[0]);
-
-                    foreach (Word w in currentWords)
-                    {
-                        if (interval >= w.startingInterval && interval <= w.endingInterval)
+                        if (minVowelPitch > frequency)
                         {
-                            float frequency;
-                            bool isNumeric = float.TryParse(lineContents[1], out frequency);
-
-                            if (isNumeric)
-                            {
-                                w.intervals.Add(interval);
-                                w.frequencies.Add(frequency);
-                            }
+                            minVowelPitch = frequency;
                         }
                     }
                     
+                    if (individualFrequency > 0)
+                    {
+                        pi.meanPitch = (individualFrequency / individualCount);
+                    }
+                }
+
+                if (Enum.IsDefined(typeof(PlosiveFricative), pi.text.ToString()))
+                {
+                    individualFrequency = 0;
+                    individualCount = 0;
+
+                    var frequencyElements = frequencies.Where(s => s.Key >= pi.startingInterval && s.Key <= pi.endingInterval).ToDictionary(dict => dict.Key, dict => dict.Value);
+
+                    foreach (KeyValuePair<float, float> el in frequencyElements)
+                    {
+                        frequency = el.Value;
+                        sw.WriteLine(el.Key + " " + frequency + " " + pi.text);
+                        if (frequency == 0)
+                        {
+                            continue;
+                        }
+                        individualFrequency += frequency;
+                        individualCount += 1.0f;
+
+                        // find max and min vowel frequency 
+                        if (maxConsonantPitch < frequency)
+                        {
+                            maxConsonantPitch = frequency;
+                        }
+                        if (minConsonantPitch > frequency)
+                        {
+                            minConsonantPitch = frequency;
+                        }
+                    }
+
+                    if (individualFrequency > 0)
+                    {
+                        pi.meanPitch = (individualFrequency / individualCount);
+                    }
                 }
             }
         }
-        catch (Exception e)
-        {
-            print("ERROR: Could not read textgrid file " + pitchFile);
-            print(e);
-        }
 
+        meanVowelPitch = GetMeanValue(phonemeTimings, true, AudioFeature.Pitch);
+        meanConsonantPitch = GetMeanValue(phonemeTimings, false, AudioFeature.Pitch);
+
+        MyLipSync.SetVowelPitches(minVowelPitch, meanVowelPitch, maxVowelPitch);
+        MyLipSync.SetConsonantPitches(minConsonantPitch, meanConsonantPitch, maxConsonantPitch);
+
+        // Debug purposes
+        //PrintToFile(AudioFeature.Pitch);
     }
 
-    public float GetMaximumFrequency()
+    /// <summary>
+    /// Get Individual mean intensity values for each phoneme
+    /// </summary>
+    void GetIndividualDecibels()
     {
-        float maxFrequency = float.MinValue;
-        foreach (ProsodyComponent pc in MyLipSync.prosody)
+        float individualIntensity, individualCount, intensity, meanVowelIntensity, meanConsonantIntensity;
+        float minVowelIntensity = float.MaxValue, maxVowelIntensity = float.MinValue, minConsonantIntensity = float.MaxValue, maxConsonantIntensity = float.MinValue;
+        using (StreamWriter sw = new StreamWriter(decibelFile))
         {
-            if (maxFrequency < pc.F0)
+            sw.WriteLine("time intensity phoneme");
+            foreach (PhonemeInformation pi in phonemeTimings)
             {
-                maxFrequency = pc.F0;
+                if (Enum.IsDefined(typeof(Vowel), pi.text.ToString()))
+                {
+                    individualIntensity = 0;
+                    individualCount = 0;
+
+                    var intensityElements = decibels.Where(s => s.Key >= pi.startingInterval && s.Key <= pi.endingInterval).ToDictionary(dict => dict.Key, dict => dict.Value);
+
+                    foreach (KeyValuePair<float, float> el in intensityElements)
+                    {
+                        intensity = el.Value;
+                        sw.WriteLine(el.Key + " " + intensity + " " + pi.text);
+                        if (intensity == 0)
+                        {
+                            continue;
+                        }
+                        individualIntensity += intensity;
+                        individualCount += 1.0f;
+
+                        // find max and min vowel intensity 
+                        if (maxVowelIntensity < intensity)
+                        {
+                            maxVowelIntensity = intensity;
+                        }
+                        if (minVowelIntensity > intensity)
+                        {
+                            minVowelIntensity = intensity;
+                        }
+                    }
+
+                    if (individualIntensity > 0)
+                    {
+                        pi.meanIntensity = (individualIntensity / individualCount);
+                    }
+                }
+
+                if (Enum.IsDefined(typeof(PlosiveFricative), pi.text.ToString()))
+                {
+                    individualIntensity = 0;
+                    individualCount = 0;
+
+                    var frequencyElements = frequencies.Where(s => s.Key >= pi.startingInterval && s.Key <= pi.endingInterval).ToDictionary(dict => dict.Key, dict => dict.Value);
+
+                    foreach (KeyValuePair<float, float> el in frequencyElements)
+                    {
+                        intensity = el.Value;
+                        sw.WriteLine(el.Key + " " + intensity + " " + pi.text);
+                        if (intensity == 0)
+                        {
+                            continue;
+                        }
+                        individualIntensity += intensity;
+                        individualCount += 1.0f;
+
+                        // find max and min vowel intensity 
+                        if (maxConsonantIntensity < intensity)
+                        {
+                            maxConsonantIntensity = intensity;
+                        }
+                        if (minConsonantIntensity > intensity)
+                        {
+                            minConsonantIntensity = intensity;
+                        }
+                    }
+
+                    if (individualIntensity > 0)
+                    {
+                        pi.meanIntensity = (individualIntensity / individualCount);
+                    }
+                }
+            }
+            sw.Close();
+        }
+
+        meanVowelIntensity = GetMeanValue(phonemeTimings, true, AudioFeature.Intensity);
+        meanConsonantIntensity = GetMeanValue(phonemeTimings, false, AudioFeature.Intensity);
+
+        MyLipSync.setVowelIntensities(minVowelIntensity, meanVowelIntensity, maxVowelIntensity);
+        MyLipSync.SetConsonantIntensities(minConsonantIntensity, meanConsonantIntensity, maxConsonantIntensity);
+
+        // Debug purposes
+        PrintToFile(AudioFeature.Intensity);
+    }
+
+    /// <summary>
+    /// Set phoneme timings of the main LipSync script
+    /// </summary>
+    void SetPhonemeTimings()
+    {
+        foreach (MyLipSync mls in lipSyncComponents)
+        {
+            mls.phonemeInformation = phonemeTimings;
+
+            if (mls.phonemeInformation.Count > 0)
+            {
+                mls.currentPhoneme = mls.phonemeInformation[0];
+            }
+            else
+            {
+                mls.currentPhoneme = null;
             }
         }
-
-        return maxFrequency;
+        
     }
 
-    public float GetMinimumFrequency()
+    /// <summary>
+    /// Return mean value of the respective audiofeature (feature)
+    /// </summary>
+    /// <param name="phonemeTimings"></param>
+    /// <param name="isVowel"></param>
+    /// <param name="feature"></param>
+    /// <returns></returns>
+    float GetMeanValue(List<PhonemeInformation> phonemeTimings, bool isVowel, AudioFeature feature)
     {
-        float minFrequency = float.MaxValue;
-        foreach (ProsodyComponent pc in MyLipSync.prosody)
+        float meanSum = 0;
+        float count = 0;
+
+        foreach (PhonemeInformation pi in phonemeTimings)
         {
-            if (minFrequency > pc.F0 && pc.F0 != 0)
+            if (isVowel)
             {
-                minFrequency = pc.F0;
+                if (Enum.IsDefined(typeof(Vowel), pi.text.ToString()))
+                {
+                    if (feature.Equals(AudioFeature.Pitch))
+                    {
+                        if (pi.meanPitch > 0)
+                        {
+                            meanSum += pi.meanPitch;
+                            count += 1f;
+                        }
+                    }
+                    else
+                    {
+                        if (pi.meanIntensity > 0)
+                        {
+                            meanSum += pi.meanIntensity;
+                            count += 1f;
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                if (Enum.IsDefined(typeof(PlosiveFricative), pi.text.ToString()))
+                {
+                    if (feature.Equals(AudioFeature.Pitch))
+                    {
+                        if (pi.meanPitch > 0)
+                        {
+                            meanSum += pi.meanPitch;
+                            count += 1f;
+                        }
+                    }
+                    else
+                    {
+                        if (pi.meanIntensity > 0)
+                        {
+                            meanSum += pi.meanIntensity;
+                            count += 1f;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return meanSum / count;
+    }
+
+    /// <summary>
+    /// Prints audio feature information to file
+    /// </summary>
+    /// <param name="feature"></param>
+    void PrintToFile(AudioFeature feature)
+    {
+        if (feature.Equals(AudioFeature.Pitch))
+        {
+            using (StreamWriter sw = new StreamWriter(frequencyAverageFile))
+            {
+                foreach (PhonemeInformation pi in phonemeTimings)
+                {
+                    sw.WriteLine((pi.startingInterval + pi.endingInterval) / 2.0f + " " + pi.meanPitch + " " + pi.text);
+                }
+                sw.Close();
             }
         }
-
-        return minFrequency;
-    }
-
-    public float GetAverageFrequency()
-    {
-        float sum = 0;
-        int count = 0;
-        foreach (ProsodyComponent pc in MyLipSync.prosody)
+        else
         {
-            sum += pc.F0;
-            count++;
-        }
-
-        return sum / (float)count;
-    }
-
-    public float GetPitchMedian()
-    {
-        float sum = 0;
-        int count = 0;
-        foreach (Word w in currentWords)
-        {
-            foreach (float frequency in w.frequencies)
+            using (StreamWriter sw = new StreamWriter(decibelAverageFile))
             {
-                sum += frequency;
-                count++;
+                foreach (PhonemeInformation pi in phonemeTimings)
+                {
+                    sw.WriteLine((pi.startingInterval + pi.endingInterval) / 2.0f + " " + pi.meanIntensity + " " + pi.text);
+                }
+                sw.Close();
             }
         }
-
-        return sum / (float)count;
     }
-
 }

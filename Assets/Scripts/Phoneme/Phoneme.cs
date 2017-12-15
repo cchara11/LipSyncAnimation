@@ -36,5 +36,8 @@ public enum Phoneme
     DiphoneOU,
     DiphoneEI,
     DiphoneX,
+    DiphoneIA,
+    DiphoneUA,
+    DiphoneEA,
     Rest
 }

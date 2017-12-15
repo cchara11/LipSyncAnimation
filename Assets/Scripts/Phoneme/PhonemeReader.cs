@@ -13,141 +13,29 @@ using UnityEngine;
 ///   Notes:        Phoneme Reader
 ///-----------------------------------------------------------------
 
-public static class PhonemeReader
+public class PhonemeReader
 {
-    public static List<Word> words;
-    public static List<Word> praatWords;
-    public static MyLipSync.AudioMode audioMode;
-
-    /// <summary>
-    /// Reads phoneme timings from the output file (phonemes.txt)
-    /// The output file is produced when synthesining audio, using CereVoice
-    /// <param name="file">File containing phonemic information</param>
-    /// <returns></returns>
-    public static List<PhonemeInfo> ReadPhonemeTimings(string file)
+    public List<PhonemeInformation> ReadPhonemeTimings(string file)
     {
-        List<PhonemeInfo> phonemeInformation = new List<PhonemeInfo>();
-        words = new List<Word>();
-        float partAudioDuration = 0;
-
-        // should be added to Application.streamingAssetsPath when build
-        using (StreamReader reader = new StreamReader(file))
-        {
-            string line;
-            int audioParts = 0;
-            float audioDuration = 0;
-
-            while ((line = reader.ReadLine()) != null)
-            {
-                // wav details
-                if (line.Contains("wav"))
-                {
-                    float prevDuration = audioDuration;
-                    string[] line_contents = line.Split(null);
-                    int audioSampleDuration = int.Parse(line_contents[4]);
-                    audioDuration = AudioInfo.getExactDuration(audioSampleDuration);
-                    audioParts += 1;
-                    partAudioDuration += prevDuration;
-                }
-
-                // word details
-                if (line.Contains("word"))
-                {
-                    string[] line_contents = line.Split(':');
-                    string[] word_info = line_contents[2].Split(null);
-
-                    // parse phoneme timings for multi audio parts
-                    float startOffset = float.Parse(word_info[1], CultureInfo.InvariantCulture.NumberFormat);
-                    float endOffset = float.Parse(word_info[2], CultureInfo.InvariantCulture.NumberFormat);
-
-                    if (audioParts > 1)
-                    {
-                        startOffset += partAudioDuration;
-                        endOffset += partAudioDuration;
-                    }
-
-                    Word wordInfo = new Word(startOffset, endOffset, word_info[3]);
-                    words.Add(wordInfo);
-                }
-
-                // phoneme details
-                if (line.Contains("phoneme"))
-                {
-                    string[] line_contents = line.Split(':');
-                    string[] phoneme_info = line_contents[2].Split(null);
-
-                    // parse phoneme timings for multi audio parts
-                    float startOffset = float.Parse(phoneme_info[1], CultureInfo.InvariantCulture.NumberFormat);
-                    float endOffset = float.Parse(phoneme_info[2], CultureInfo.InvariantCulture.NumberFormat);
-
-                    if (audioParts > 1)
-                    {
-                        startOffset += partAudioDuration;
-                        endOffset += partAudioDuration;
-                    }
-
-                    PhonemeInfo phonemeInfo = new PhonemeInfo(startOffset, endOffset, phoneme_info[3]);
-                    phonemeInformation.Add(phonemeInfo);
-                }
-
-            }
-        }
-
-        if (audioMode.Equals(MyLipSync.AudioMode.Natural))
-        {
-            ReadWordTimingsPraat();
-            AdjustWithPraatAnnotation(phonemeInformation);
-        }
-
-        return phonemeInformation;
-    }
-
-    static void ReadWordTimingsPraat()
-    {
-        praatWords = new List<Word>();
         string line;
+        List<PhonemeInformation> phonemeInfo = new List<PhonemeInformation>();
 
-        using (StreamReader sr = new StreamReader(PathManager.getAudioPath("woman2_orig.TextGrid")))
+        using (StreamReader sr = new StreamReader(file))
         {
             while ((line = sr.ReadLine()) != null)
             {
-                if (line.Contains("intervals "))
+                string[] lineContents = line.Split();
+
+                PhonemeInformation pi = new PhonemeInformation(float.Parse(lineContents[1]), float.Parse(lineContents[2]), (Phoneme)Enum.Parse(typeof(Phoneme), lineContents[0]))
                 {
-                    float start = float.Parse(sr.ReadLine().Trim().Split()[2]);
-                    float end = float.Parse(sr.ReadLine().Trim().Split()[2]);
-                    string text = sr.ReadLine().Trim().Split()[2].Replace("\"", string.Empty);
-                    if (!text.Equals(""))
-                    {
-                        praatWords.Add(new Word(start, end, text.ToLower()));
-                    }
-                }
+                    apex = bool.Parse(lineContents[3]),
+                    influence = float.Parse(lineContents[4])
+                };
+                phonemeInfo.Add(pi);
             }
         }
-    }
 
-    static void AdjustWithPraatAnnotation(List<PhonemeInfo> phonemeInfo)
-    {
-        phonemeInfo.RemoveAll(x => x.phoneme.Equals(Phoneme.Rest));
-
-        // adjust phoneme timings
-        foreach (PhonemeInfo pi in phonemeInfo)
-        {
-            // find word that corresponds to the phoneme's intervals
-            int index = words.IndexOf(words.Find(x => (x.startingInterval <= pi.starting_time) && (x.endingInterval >= pi.ending_time)));
-
-            //Word praatWord = praatWords.Find(x => x.text.Equals(word.text) && );
-            if (index >= 0)
-            {
-                //Debug.Log("===> " + words[index].text + " " + pi.phoneme + " " + pi.starting_time + " " + pi.ending_time + "O: " + words[index].startingInterval + " " + words[index].endingInterval + " N: " + praatWords[index].startingInterval + " " + praatWords[index].endingInterval + " C: " + RangeTransformation(pi.starting_time, words[index].startingInterval, words[index].endingInterval, praatWords[index].startingInterval, praatWords[index].endingInterval) + " " + RangeTransformation(pi.ending_time, words[index].startingInterval, words[index].endingInterval, praatWords[index].startingInterval, praatWords[index].endingInterval));
-                pi.starting_time = RangeTransformation(pi.starting_time, words[index].startingInterval, words[index].endingInterval, praatWords[index].startingInterval, praatWords[index].endingInterval);
-                pi.ending_time = RangeTransformation(pi.ending_time, words[index].startingInterval, words[index].endingInterval, praatWords[index].startingInterval, praatWords[index].endingInterval);
-            }
-        }
-    }
-
-    static float RangeTransformation(float x, float a, float b, float c, float d)
-    {
-        return (x - a) * ((d - c) / (b - a)) + c;
+        return phonemeInfo;
     }
 
 

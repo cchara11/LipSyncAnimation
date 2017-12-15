@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 ///-----------------------------------------------------------------
-///   Class:        LipHeavy.cs
-///   Description:  LipHeavy phoneme enumeration 
+///   Class:        PlosiveFricative.cs
+///   Description:  Plosive and fricative phoneme enumeration 
 ///   Author:       Constantinos Charalambous     Date: 20/10/2017
 ///   Notes:        Lip Sync Animation
 ///-----------------------------------------------------------------
 
-public enum LipHeavy
+public enum PlosiveFricative
 {
-    UUU,
-    OHH,
-    SSH
+    //fricatives
+    SSS,
+    FFF,
+    SHH,
+    TH,
+    //plosives
+    MMM,
+    T,
+    GK
 }

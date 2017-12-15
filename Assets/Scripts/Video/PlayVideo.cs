@@ -40,8 +40,8 @@ public class PlayVideo : MonoBehaviour {
         videoElapsedTimer = 0.0f;
 
         // get arousal and valence values
-        arousal = ArousalValence.GetArousal(PathManager.getSEMAINPath(arousalFile));
-        valence = ArousalValence.GetValence(PathManager.getSEMAINPath(valenceFile));
+        arousal = ArousalValence.GetArousal(PathManager.GetSEMAINPath(arousalFile));
+        valence = ArousalValence.GetValence(PathManager.GetSEMAINPath(valenceFile));
         currentArousal = 0.0f;
         currentValence = 0.0f;
 
@@ -70,7 +70,7 @@ public class PlayVideo : MonoBehaviour {
         audioSource.Pause();
 
         player.source = VideoSource.Url;
-        player.url = PathManager.getSEMAINPath(videoUrl);
+        player.url = PathManager.GetSEMAINPath(videoUrl);
 
         player.audioOutputMode = VideoAudioOutputMode.AudioSource;
         player.EnableAudioTrack(0, true);

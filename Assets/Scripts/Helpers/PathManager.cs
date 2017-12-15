@@ -13,52 +13,72 @@ using UnityEngine;
 
 public static class PathManager
 { 
-    public static string getDataPath(string file)
+    public static string GetDataPath(string file)
     {
         return Application.streamingAssetsPath + "/" + file;
     }
 
-    public static string getXMLDataPath(string file)
+    public static string GetXMLDataPath(string file)
     {
         return Application.streamingAssetsPath + "/XML/" + file;
     }
 
-    public static string getAudioPath(string file)
+    public static string GetAudioPath(string file)
     {
         return Application.streamingAssetsPath + "/Audio/" + file;
     }
 
-    public static string getSEMAINPath(string file)
+    public static string GetResourcesPath(string file)
+    {
+        return Application.dataPath + "/Resources/" + file;
+    }
+
+    public static string GetResourcesPath()
+    {
+        return Application.dataPath + "/Resources/";
+    }
+
+    public static string GetAudioResourcesPath(string file)
+    {
+        return Application.dataPath + "/Resources/Audio/" + file;
+    }
+
+    public static string GetSEMAINPath(string file)
     {
         return Application.streamingAssetsPath + "/SEMAINE/Sessions/2/" + file;
     }
 
-    public static string getCereVoicePath(string file)
+    public static string GetCereVoicePath(string file)
     {
         return Application.streamingAssetsPath + "/CereVoice/" + file;
     }
 
-    public static string getOpenSmilePath(string file)
+    public static string GetOpenSmilePath(string file)
     {
         return Application.streamingAssetsPath + "/OpenSmile/" + file;
     }
 
-    public static string getOpenSmileConfigPath(string file)
+    public static string GetOpenSmileConfigPath(string file)
     {
         return Application.streamingAssetsPath + "/OpenSmile/config/" + file;
     }
 
-    public static string getOpenSmileDataPath(string file)
+    public static string GetOpenSmileDataPath(string file)
     {
         return Application.streamingAssetsPath + "/OpenSmile/data/" + file;
     }
 
-    public static string getRogoDigitalPath(string file)
+    public static string GetRogoDigitalPath(string file)
     {
         return Application.dataPath + "/Rogo Digital/LipSync Pro/Examples/Audio/" + file;
     }
 
-    public static string getEmotionPath(string file)
+    public static string GetResourcesRogoPath(string file)
+    {
+        return Application.dataPath + "/Resources/Rogo/" + file;
+    }
+
+    public static string GetEmotionPath(string file)
     {
         return Application.streamingAssetsPath + "/Emotions/" + file;
     }

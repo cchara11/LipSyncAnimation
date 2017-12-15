@@ -1,95 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+///--------------------------------------------------------------------
+///   Class:        RogoPhonemeInfo.cs
+///   Description:  Class responsible to map our phonemes to Rogo ones 
+///   Author:       Constantinos Charalambous     Date: 28/11/2017
+///   Notes:        Lip Sync Animation
+///--------------------------------------------------------------------
+
 public static class RogoPhonemeInfo
 {
+    /// <summary>
+    /// Returns the respective rogo phoneme
+    /// </summary>
+    /// <param name="phoneme"></param>
+    /// <returns></returns>
     public static RogoPhoneme? MapRogoPhoneme(string phoneme)
     {
         switch (phoneme)
         {
-            case "@":
-                return RogoPhoneme.E;
-            case "@@":
-                return RogoPhoneme.E;
-            case "a":
+            case "AHH":
                 return RogoPhoneme.AI;
-            case "aa":
+            case "AAA":
                 return RogoPhoneme.AI;
-            case "ai":
-                return RogoPhoneme.AI;
-            case "au":
-                return RogoPhoneme.AI;
-            case "b":
-                return RogoPhoneme.MBP;
-            case "ch":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "d":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "dh":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "e":
-                return RogoPhoneme.E;
-            case "ei":
-                return RogoPhoneme.E;
-            case "f":
-                return RogoPhoneme.FV;
-            case "g":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "h":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "i":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "ii":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "jh":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "k":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "l":
+            case "UUU":
+                return RogoPhoneme.U;
+            case "RRR":
                 return RogoPhoneme.L;
-            case "m":
-                return RogoPhoneme.MBP;
-            case "n":
+            case "T":
                 return RogoPhoneme.CDGKNRSThYZ;
-            case "ng":
+            case "TH":
                 return RogoPhoneme.CDGKNRSThYZ;
-            case "o":
-                return RogoPhoneme.O;
-            case "oi":
-                return RogoPhoneme.O;
-            case "oo":
-                return RogoPhoneme.O;
-            case "ou":
-                return RogoPhoneme.U;
-            case "p":
-                return RogoPhoneme.MBP;
-            case "r":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "s":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "sh":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "t":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "th":
-                return RogoPhoneme.CDGKNRSThYZ;
-            case "u":
-                return RogoPhoneme.U;
-            case "uh":
-                return RogoPhoneme.U;
-            case "uu":
-                return RogoPhoneme.U;
-            case "v":
+            case "FFF":
                 return RogoPhoneme.FV;
-            case "w":
-                return RogoPhoneme.WQ;
-            case "x":
+            case "EHH":
+                return RogoPhoneme.E;
+            case "OHH":
+                return RogoPhoneme.O;
+            case "IEE":
                 return RogoPhoneme.CDGKNRSThYZ;
-            case "y":
+            case "SSS":
                 return RogoPhoneme.CDGKNRSThYZ;
-            case "z":
+            case "SSH":
                 return RogoPhoneme.CDGKNRSThYZ;
-            case "zh":
+            case "MMM":
+                return RogoPhoneme.MBP;
+            case "Schwa":
+                return RogoPhoneme.E;
+            case "L":
+                return RogoPhoneme.L;
+            case "N":
+                return RogoPhoneme.CDGKNRSThYZ;
+            case "GK":
                 return RogoPhoneme.CDGKNRSThYZ;
             default:
                 return RogoPhoneme.Rest;

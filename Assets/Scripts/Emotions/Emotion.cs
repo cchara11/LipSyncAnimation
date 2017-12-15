@@ -12,8 +12,15 @@ using UnityEngine;
 
 public enum Emotion
 {
-    Happy,
+    SmileLaugh,
+    SmileLeft,
+    SmileRight,
+    SmileOnly,
+    OpenMouth,
+    Hesitation,
+    Surprised,
     Sad,
     Angry,
+    Flirting,
     Neutral
 }

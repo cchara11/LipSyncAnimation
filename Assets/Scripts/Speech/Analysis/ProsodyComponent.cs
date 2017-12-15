@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+///---------------------------------------------------------------------
+///   Class:        ProsodyComponent.cs
+///   Description:  Prosody component class  
+///   Author:       Constantinos Charalambous     Date: 20/10/2017
+///   Notes:        Audio analysis
+///---------------------------------------------------------------------
+
 public class ProsodyComponent
 {
     public float timestamp;

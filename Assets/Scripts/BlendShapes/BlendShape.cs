@@ -23,6 +23,7 @@ public class BlendShape
     public BlendShape()
     {
         weight = 0;
+        currentWeight = 0;
     }
 
     public BlendShape(string name, int index)
@@ -30,6 +31,7 @@ public class BlendShape
         this.name = name;
         this.index = index;
         weight = 0;
+        currentWeight = 0;
     }
 
     /// <summary>

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 ///-----------------------------------------------------------------
-///   Class:        LipHeavy.cs
-///   Description:  LipHeavy phoneme enumeration 
-///   Author:       Constantinos Charalambous     Date: 20/10/2017
+///   Class:        AudioMode.cs
+///   Description:  Audio mode enumeration
+///   Author:       Constantinos Charalambous     Date: 28/11/2017
 ///   Notes:        Lip Sync Animation
 ///-----------------------------------------------------------------
 
-public enum LipHeavy
+public enum AudioMode
 {
-    UUU,
-    OHH,
-    SSH
+    CereVoice,
+    Natural
 }
+

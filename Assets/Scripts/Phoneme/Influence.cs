@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 ///-----------------------------------------------------------------
-///   Class:        LipHeavy.cs
-///   Description:  LipHeavy phoneme enumeration 
+///   Class:        Influence.cs
+///   Description:  Phonemic influence indicator enumeration 
 ///   Author:       Constantinos Charalambous     Date: 20/10/2017
 ///   Notes:        Lip Sync Animation
 ///-----------------------------------------------------------------
 
-public enum LipHeavy
+public enum Influence
 {
-    UUU,
-    OHH,
-    SSH
+    VC, // vowel over consonant
+    VV, // vowel over vowel
+    CV, // consonant over vowel
+    CC, // consonant over consonant
+    NA
 }

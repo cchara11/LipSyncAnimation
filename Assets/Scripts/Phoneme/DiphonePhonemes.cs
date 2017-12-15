@@ -5,7 +5,7 @@ using UnityEngine;
 ///-----------------------------------------------------------------
 ///   Class:        DiphonePhonemes.cs
 ///   Description:  This class is used to map diphones into phonemes
-///   Author:       Constantinos Charalambous     Date: 28/06/2017
+///   Author:       Constantinos Charalambous     Date: 20/10/2017
 ///   Notes:        One diphone is mapped to just two phonemes
 ///-----------------------------------------------------------------
 ///
