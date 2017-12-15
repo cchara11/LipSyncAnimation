@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 ///-----------------------------------------------------------------
 ///   Class:        LipSyncManagerEditor.cs
 ///   Description:  This class is a helper of the lip sync 
 ///                 unity component, providing ease of the component
 ///                 customization through unity's inspector
-///   Author:       Constantinos Charalambous     Date: 28/06/2017
+///   Author:       Constantinos Charalambous     Date: 28/11/2017
 ///   Notes:        Editor Class
 ///-----------------------------------------------------------------
-///
-[CustomEditor(typeof(LipSync))]
+
+[CustomEditor(typeof(MyLipSync))]
 public class LipSyncManagerEditor : Editor
 {
-    private LipSync lipSyncInstance;
+    private MyLipSync lipSyncInstance;
     List<bool> staticPhonemeFoldout, dynamicPhonemeFoldout, emotionFoldout;
     List<string> blendShapeList;
     bool includeWeights = false;
@@ -27,22 +29,24 @@ public class LipSyncManagerEditor : Editor
 
     enum InteractionType
     {
-        Phonemes,
+        StaticVisemes,
+        DynamicVisemes,
         Emotions
     }
 
     // Initializations
     private void Awake()
     {
-        lipSyncInstance = (LipSync)target;
+        lipSyncInstance = (MyLipSync)target;
         staticPhonemeFoldout = new List<bool>();
         dynamicPhonemeFoldout = new List<bool>();
         emotionFoldout = new List<bool>();
         blendShapeList = FillBlendShapeList(lipSyncInstance.characterMesh);
-        InstantiateFoldout(InteractionType.Phonemes);
+        InstantiateFoldout(InteractionType.StaticVisemes);
         InstantiateFoldout(InteractionType.Emotions);
         genericToolbar = new string[] { "Phonemes", "Emotions" };
         phonemeToolbar = new string[] { "Static", "Dynamic" };
+        ResetMapping(InteractionType.StaticVisemes, false);
     }
 
     public override void OnInspectorGUI()
@@ -69,6 +73,12 @@ public class LipSyncManagerEditor : Editor
         if (GUILayout.Button("Export configuration to XML"))
         {
             ExportXML();
+        }
+
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(lipSyncInstance);
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
         includeWeights = EditorGUILayout.Toggle("Include Weights", includeWeights, GUILayout.ExpandWidth(false));
@@ -174,7 +184,7 @@ public class LipSyncManagerEditor : Editor
     void GenerateStaticVisemesGUI()
     {
         GUILayout.BeginHorizontal();
-        AddControlButtons(InteractionType.Phonemes);
+        AddControlButtons(InteractionType.StaticVisemes);
         GUILayout.EndHorizontal();
 
         for (int i = 0; i < lipSyncInstance.staticVisemes.Count; i++)
@@ -183,7 +193,7 @@ public class LipSyncManagerEditor : Editor
 
             if (staticPhonemeFoldout[i])
             {
-                UnfoldRest(InteractionType.Phonemes, i, staticPhonemeFoldout);
+                UnfoldRest(InteractionType.StaticVisemes, i, staticPhonemeFoldout);
                 //InitializeModel(i);
                 GUILayout.BeginHorizontal();
                 // Phoneme Popup
@@ -194,7 +204,7 @@ public class LipSyncManagerEditor : Editor
                 GUI.backgroundColor = Color.red;
                 if (GUILayout.Button("X", GetRemoveButtonStyle()))
                 {
-                    RemoveMapping(InteractionType.Phonemes, i);
+                    RemoveMapping(InteractionType.StaticVisemes, i);
                     continue;
                 }
                 GUI.backgroundColor = Color.white;
@@ -204,7 +214,7 @@ public class LipSyncManagerEditor : Editor
                 // BlendShape Popup
                 if (GUILayout.Button("Add BlendShape Mapping"))
                 {
-                    AddBlendShapeMapping(InteractionType.Phonemes, i);
+                    AddBlendShapeMapping(InteractionType.StaticVisemes, i);
                 }
 
                 for (int j = 0; j < lipSyncInstance.staticVisemes[i].blendShapes.Count; j++)
@@ -219,7 +229,7 @@ public class LipSyncManagerEditor : Editor
                     GUI.backgroundColor = Color.red;
                     if (GUILayout.Button("X", GetRemoveButtonStyle()))
                     {
-                        RemoveBlendShapeMapping(InteractionType.Phonemes, i, j);
+                        RemoveBlendShapeMapping(InteractionType.StaticVisemes, i, j);
                         continue;
                     }
                     GUI.backgroundColor = Color.white;
@@ -265,7 +275,7 @@ public class LipSyncManagerEditor : Editor
 
             if (dynamicPhonemeFoldout[i])
             {
-                UnfoldRest(InteractionType.Phonemes, i, dynamicPhonemeFoldout);
+                UnfoldRest(InteractionType.StaticVisemes, i, dynamicPhonemeFoldout);
                 //InitializeModel(i);
                 GUILayout.BeginHorizontal();
                 // Diphone Popup
@@ -275,7 +285,7 @@ public class LipSyncManagerEditor : Editor
                 GUI.backgroundColor = Color.red;
                 if (GUILayout.Button("X", GetRemoveButtonStyle()))
                 {
-                    RemoveMapping(InteractionType.Phonemes, i);
+                    RemoveMapping(InteractionType.DynamicVisemes, i);
                     continue;
                 }
                 GUI.backgroundColor = Color.white;
@@ -316,7 +326,7 @@ public class LipSyncManagerEditor : Editor
     {
         if (GUILayout.Button("Add New"))
         {
-            if (type.Equals(InteractionType.Phonemes))
+            if (type.Equals(InteractionType.StaticVisemes))
             {
                 AddStaticVisemeMapping();
                 staticPhonemeFoldout.Add(false);
@@ -416,7 +426,7 @@ public class LipSyncManagerEditor : Editor
     /// </summary>
     void AddBlendShapeMapping(InteractionType type, int index)
     {
-        if (type.Equals(InteractionType.Phonemes))
+        if (type.Equals(InteractionType.StaticVisemes))
         {
             lipSyncInstance.staticVisemes[index].blendShapes.Add(new BlendShape());                
         }
@@ -439,15 +449,20 @@ public class LipSyncManagerEditor : Editor
     /// </summary>
     void RemoveMapping(InteractionType type, int index)
     {
-        if (type.Equals(InteractionType.Phonemes))
+        if (type.Equals(InteractionType.StaticVisemes))
         {
             lipSyncInstance.staticVisemes.RemoveAt(index);
             staticPhonemeFoldout.RemoveAt(index);
         }
-        else
+        else if (type.Equals(InteractionType.Emotions))
         {
             lipSyncInstance.emotions.RemoveAt(index);
             emotionFoldout.RemoveAt(index);
+        }
+        else
+        {
+            lipSyncInstance.dynamicVisemes.RemoveAt(index);
+            dynamicPhonemeFoldout.RemoveAt(index);
         }
 
     }
@@ -458,7 +473,7 @@ public class LipSyncManagerEditor : Editor
     void RemoveBlendShapeMapping(InteractionType type, int typeIndex, int blendShapeIndex)
     {
         int currentBlendShapeIndex;
-        if (type.Equals(InteractionType.Phonemes))
+        if (type.Equals(InteractionType.StaticVisemes))
         {
             currentBlendShapeIndex = lipSyncInstance.staticVisemes[typeIndex].blendShapes[blendShapeIndex].index;
             lipSyncInstance.staticVisemes[typeIndex].blendShapes.RemoveAt(blendShapeIndex);          
@@ -509,7 +524,7 @@ public class LipSyncManagerEditor : Editor
 
         if (clearAll)
         {
-            if (type.Equals(InteractionType.Phonemes))
+            if (type.Equals(InteractionType.StaticVisemes))
             {
                 lipSyncInstance.staticVisemes.Clear();
                 staticPhonemeFoldout.Clear();
@@ -560,9 +575,9 @@ public class LipSyncManagerEditor : Editor
     /// </summary>
     void ExportXML()
     {
-        XMLGenerator.GeneratePhonemeXML(lipSyncInstance.staticVisemes, includeWeights);
-        XMLGenerator.GenerateDiphonesXML(lipSyncInstance.dynamicVisemes);
-        XMLGenerator.GenerateEmotionsXML(lipSyncInstance.emotions, includeWeights);
+        XMLGenerator.GeneratePhonemeXML(lipSyncInstance.staticVisemes, includeWeights, lipSyncInstance.characterMesh.transform.root.name);
+        XMLGenerator.GenerateDiphonesXML(lipSyncInstance.dynamicVisemes, lipSyncInstance.characterMesh.transform.root.name);
+        XMLGenerator.GenerateEmotionsXML(lipSyncInstance.emotions, includeWeights, lipSyncInstance.characterMesh.transform.root.name);
     }
 
     /// <summary>
@@ -570,7 +585,7 @@ public class LipSyncManagerEditor : Editor
     /// </summary>
     void InstantiateFoldout(InteractionType type)
     {
-        if (type.Equals(InteractionType.Phonemes))
+        if (type.Equals(InteractionType.StaticVisemes))
         {
             for (int i = 0; i < lipSyncInstance.staticVisemes.Count; i++)
             {
@@ -597,7 +612,7 @@ public class LipSyncManagerEditor : Editor
     /// </summary>
     void UnfoldRest(InteractionType type, int index, List<bool> list)
     {
-        if (type.Equals(InteractionType.Phonemes))
+        if (type.Equals(InteractionType.StaticVisemes))
         {
             for (int i = 0; i < list.Count; i++)
             {
