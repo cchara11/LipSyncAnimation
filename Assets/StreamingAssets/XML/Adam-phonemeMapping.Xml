@@ -3,151 +3,135 @@
   <ATTR>
     <Phoneme>AAA</Phoneme>
     <BlendShape>
-      <Index>31</Index>
-      <Weight>67.2355</Weight>
-    </BlendShape>
-    <BlendShape>
-      <Index>30</Index>
-      <Weight>29.62963</Weight>
+      <Index>40</Index>
+      <Weight>69.89619</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>AHH</Phoneme>
     <BlendShape>
-      <Index>31</Index>
-      <Weight>91.06754</Weight>
+      <Index>40</Index>
+      <Weight>74.80456</Weight>
+    </BlendShape>
+    <BlendShape>
+      <Index>59</Index>
+      <Weight>23.18339</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>UUU</Phoneme>
     <BlendShape>
-      <Index>16</Index>
-      <Weight>76.60316</Weight>
+      <Index>26</Index>
+      <Weight>59.99416</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>RRR</Phoneme>
     <BlendShape>
-      <Index>35</Index>
-      <Weight>77.58115</Weight>
+      <Index>14</Index>
+      <Weight>75.56393</Weight>
     </BlendShape>
     <BlendShape>
-      <Index>38</Index>
-      <Weight>29.04217</Weight>
-    </BlendShape>
-    <BlendShape>
-      <Index>34</Index>
-      <Weight>14.33447</Weight>
+      <Index>13</Index>
+      <Weight>39.44637</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>T</Phoneme>
     <BlendShape>
-      <Index>18</Index>
-      <Weight>43.03798</Weight>
+      <Index>28</Index>
+      <Weight>36.40907</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>TH</Phoneme>
     <BlendShape>
-      <Index>17</Index>
-      <Weight>45.75163</Weight>
+      <Index>27</Index>
+      <Weight>52.24913</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>FFF</Phoneme>
     <BlendShape>
-      <Index>27</Index>
-      <Weight>83.99176</Weight>
+      <Index>37</Index>
+      <Weight>69.7424</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>EHH</Phoneme>
     <BlendShape>
-      <Index>29</Index>
-      <Weight>43.79085</Weight>
-    </BlendShape>
-    <BlendShape>
-      <Index>30</Index>
-      <Weight>30.06536</Weight>
+      <Index>39</Index>
+      <Weight>58.82353</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>OHH</Phoneme>
     <BlendShape>
-      <Index>21</Index>
-      <Weight>100</Weight>
+      <Index>31</Index>
+      <Weight>68.65115</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>IEE</Phoneme>
     <BlendShape>
-      <Index>25</Index>
-      <Weight>67.95911</Weight>
+      <Index>35</Index>
+      <Weight>64.74727</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>SSS</Phoneme>
     <BlendShape>
-      <Index>20</Index>
-      <Weight>75.81993</Weight>
+      <Index>30</Index>
+      <Weight>54.1945</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>SSH</Phoneme>
     <BlendShape>
-      <Index>19</Index>
-      <Weight>86.02841</Weight>
+      <Index>29</Index>
+      <Weight>68.69516</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>MMM</Phoneme>
     <BlendShape>
-      <Index>22</Index>
-      <Weight>61.77475</Weight>
+      <Index>32</Index>
+      <Weight>64.68024</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>Schwa</Phoneme>
     <BlendShape>
-      <Index>30</Index>
-      <Weight>20.04357</Weight>
+      <Index>39</Index>
+      <Weight>48.67595</Weight>
     </BlendShape>
     <BlendShape>
-      <Index>31</Index>
-      <Weight>38.77996</Weight>
+      <Index>59</Index>
+      <Weight>29.41176</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>L</Phoneme>
     <BlendShape>
-      <Index>34</Index>
-      <Weight>28.95277</Weight>
+      <Index>11</Index>
+      <Weight>29.75778</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>N</Phoneme>
     <BlendShape>
-      <Index>37</Index>
-      <Weight>17.85684</Weight>
+      <Index>11</Index>
+      <Weight>20.09192</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>GK</Phoneme>
     <BlendShape>
-      <Index>35</Index>
-      <Weight>46.3895</Weight>
-    </BlendShape>
-    <BlendShape>
-      <Index>36</Index>
-      <Weight>91.46608</Weight>
+      <Index>12</Index>
+      <Weight>36.33218</Weight>
     </BlendShape>
   </ATTR>
   <ATTR>
     <Phoneme>Rest</Phoneme>
-    <BlendShape>
-      <Index>0</Index>
-      <Weight>0</Weight>
-    </BlendShape>
   </ATTR>
 </PhonemeMapping>
