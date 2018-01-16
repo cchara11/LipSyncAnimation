@@ -1,0 +1,100 @@
+[ 25.11.2017 - 14:37:21 ]
+    (MSG) [2] in SMILExtract : openSMILE starting!
+[ 25.11.2017 - 14:37:21 ]
+    (MSG) [2] in SMILExtract : config file is: .\config\prosodyAcf.conf
+[ 25.11.2017 - 14:37:21 ]
+    (MSG) [2] in cComponentManager : successfully registered 95 component types.
+[ 25.11.2017 - 14:37:21 ]
+    (MSG) [2] in instance 'lldarffsink' : No filename given, disabling this sink component.
+==> LEVEL 'wave'  +++  Buffersize(frames) = 110250  +++  nReaders = 1
+     Period(in seconds) = 0.000045 	 frameSize(in seconds) = 0.000045 (last: 0.000000)
+     BlocksizeRead(frames) = 1324 	 BlocksizeWrite(frames) = 22050
+     Number of elements: 1 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0.       : pcm
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'outp'  +++  Buffersize(frames) = 498  +++  nReaders = 2
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.050000 (last: 0.000000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 1103 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0. - 1102. : pcm[0-1102]  (1103)
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'intens'  +++  Buffersize(frames) = 498  +++  nReaders = 1
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.050000 (last: 0.000000)
+     BlocksizeRead(frames) = 4 	 BlocksizeWrite(frames) = 1
+     Number of elements: 1 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0.       : pcm_loudness
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'win'  +++  Buffersize(frames) = 498  +++  nReaders = 1
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.050000 (last: 0.000000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 1103 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0. - 1102. : pcm[0-1102]  (1103)
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'fftc'  +++  Buffersize(frames) = 498  +++  nReaders = 1
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.092838 (last: 0.050000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 2048 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0. - 2047. : pcm[0-2047]  (2048)
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+        0. - 2047. : infoSize = 8200 (dt = 513)
+==> LEVEL 'fftmag'  +++  Buffersize(frames) = 498  +++  nReaders = 2
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.092838 (last: 0.050000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 1025 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0. - 1024. : pcm_fftMag[0-1024]  (1025)
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+        0. - 1024. : infoSize = 8200 (dt = 514)
+==> LEVEL 'acf'  +++  Buffersize(frames) = 498  +++  nReaders = 1
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.092838 (last: 0.050000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 1024 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0. - 1023. : pcm_fftMag_acf[0-1023]  (1024)
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'cepstrum'  +++  Buffersize(frames) = 498  +++  nReaders = 1
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.092838 (last: 0.050000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 1024 	 Number of fields: 1
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0. - 1023. : pcm_fftMag_acf[0-1023]  (1024)
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'pitch'  +++  Buffersize(frames) = 498  +++  nReaders = 1
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.092838 (last: 0.050000)
+     BlocksizeRead(frames) = 4 	 BlocksizeWrite(frames) = 1
+     Number of elements: 2 	 Number of fields: 2
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0.       : voiceProb
+       1.       : F0
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+==> LEVEL 'lld'  +++  Buffersize(frames) = 498  +++  nReaders = 2
+     Period(in seconds) = 0.010000 	 frameSize(in seconds) = 0.092838 (last: 0.050000)
+     BlocksizeRead(frames) = 1 	 BlocksizeWrite(frames) = 1
+     Number of elements: 3 	 Number of fields: 3
+     type = float   noHang = 1   isRingbuffer(isRb) = 1   growDyn = 0
+     Fields: index (range) : fieldname[array indicies]  (# elements)
+       0.       : voiceProb_sma
+       1.       : F0_sma
+       2.       : pcm_loudness_sma
+     Fields with info struct set: (index (range) : info struct size in bytes (dt = datatype))
+[ 25.11.2017 - 14:37:21 ]
+    (MSG) [2] in cComponentManager : successfully finished createInstances
+                                 (13 component instances were finalised, 1 data memories were finalised)
+[ 25.11.2017 - 14:37:21 ]
+    (MSG) [2] in cComponentManager : starting single thread processing loop
+[ 25.11.2017 - 14:37:25 ]
+    (MSG) [2] in cComponentManager : Processing finished! System ran for 9566 ticks.
