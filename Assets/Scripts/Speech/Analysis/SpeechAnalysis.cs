@@ -21,6 +21,8 @@ public class SpeechAnalysis
     List<WordInformation> currentWords;
     public List<PhonemeInformation> phonemeTimings;
     private MyLipSync[] lipSyncComponents;
+    float slidingWindow;
+    float totalAudioDuration;
 
     // frequencies and decibels
     Dictionary<float, float> frequencies;
@@ -37,11 +39,12 @@ public class SpeechAnalysis
     /// </summary>
     /// <param name="currentClipName"></param>
     /// <param name="phonemeTimings"></param>
-    public SpeechAnalysis(string currentClipName, List<PhonemeInformation> phonemeTimings)
+    public SpeechAnalysis(string currentClipName, List<PhonemeInformation> phonemeTimings, float slidingWindow)
     {
         this.currentClipName = currentClipName;
         lipSyncComponents = (MyLipSync[])GameObject.FindObjectsOfType(typeof(MyLipSync));
         this.phonemeTimings = phonemeTimings;
+        this.slidingWindow = slidingWindow;
 
         // files for debugging
         frequencyFile = PathManager.GetResourcesPath("frequenciesOpen.txt");
@@ -175,6 +178,7 @@ public class SpeechAnalysis
 
             MyLipSync.frequencies = frequencies;
             MyLipSync.decibels = decibels;
+            MyLipSync.slidingWindow = slidingWindow;
             
         }
 
@@ -194,6 +198,18 @@ public class SpeechAnalysis
     {
         float individualFrequency, individualCount, frequency, meanVowelPitch, meanConsonantPitch;
         float minVowelPitch = float.MaxValue, maxVowelPitch = float.MinValue, minConsonantPitch = float.MaxValue, maxConsonantPitch = float.MinValue;
+        totalAudioDuration = frequencies.Keys.Max();
+
+        // calculation of frequency per sliding window
+        List<float>[] pitchPerWindowVowel = new List<float>[((int)totalAudioDuration * 1000) / (int)slidingWindow + 1];
+        List<float>[] pitchPerWindowConsonant = new List<float>[((int)totalAudioDuration * 1000) / (int)slidingWindow + 1];
+        List<float> meanVowelPitches = new List<float>();
+        List<float> meanConsonantPitches = new List<float>();
+        for (int i = 0; i < pitchPerWindowVowel.Length; i++)
+        {
+            pitchPerWindowVowel[i] = new List<float>();
+            pitchPerWindowConsonant[i] = new List<float>();
+        }
 
         using (StreamWriter sw = new StreamWriter(frequencyFile))
         {
@@ -216,6 +232,10 @@ public class SpeechAnalysis
                         {
                             continue;
                         }
+
+                        int windowIndex = (int)(el.Key * 1000) / (int)slidingWindow;
+                        pitchPerWindowVowel[windowIndex].Add(frequency);
+                        
                         individualFrequency += frequency;
                         individualCount += 1.0f;
 
@@ -229,7 +249,7 @@ public class SpeechAnalysis
                             minVowelPitch = frequency;
                         }
                     }
-                    
+
                     if (individualFrequency > 0)
                     {
                         pi.meanPitch = (individualFrequency / individualCount);
@@ -251,6 +271,10 @@ public class SpeechAnalysis
                         {
                             continue;
                         }
+
+                        int windowIndex = (int)(el.Key * 1000) / (int)slidingWindow;
+                        pitchPerWindowConsonant[windowIndex].Add(frequency);
+
                         individualFrequency += frequency;
                         individualCount += 1.0f;
 
@@ -273,14 +297,42 @@ public class SpeechAnalysis
             }
         }
 
-        meanVowelPitch = GetMeanValue(phonemeTimings, true, AudioFeature.Pitch);
-        meanConsonantPitch = GetMeanValue(phonemeTimings, false, AudioFeature.Pitch);
+        foreach (List<float> meanFrequency in pitchPerWindowVowel)
+        {
+            float mean = meanFrequency.Sum() / meanFrequency.Count;
+            if (!float.IsNaN(mean))
+            {
+                meanVowelPitches.Add(meanFrequency.Sum() / meanFrequency.Count);
+            }
+            else
+            {
+                meanVowelPitches.Add(0);
+            }
+        }
+        foreach (List<float> meanFrequency in pitchPerWindowConsonant)
+        {
+            float mean = meanFrequency.Sum() / meanFrequency.Count;
+            if (!float.IsNaN(mean))
+            {
+                meanConsonantPitches.Add(meanFrequency.Sum() / meanFrequency.Count);
+            }
+            else
+            {
+                meanConsonantPitches.Add(0);
+            }
+        }
 
-        MyLipSync.SetVowelPitches(minVowelPitch, meanVowelPitch, maxVowelPitch);
+        // mean pitch for all audio - splitted into custom sliding windows - new implementation
+        MyLipSync.SetMeanPitches(meanVowelPitches, meanConsonantPitches);
+
+        // mean pitch for all audio - old implementation
+        meanVowelPitch = GetMeanValues(phonemeTimings, true, AudioFeature.Pitch);
+        meanConsonantPitch = GetMeanValues(phonemeTimings, false, AudioFeature.Pitch);
+        MyLipSync.SetVowelPitches(minVowelPitch, meanVowelPitch, maxVowelPitch); 
         MyLipSync.SetConsonantPitches(minConsonantPitch, meanConsonantPitch, maxConsonantPitch);
 
         // Debug purposes
-        //PrintToFile(AudioFeature.Pitch);
+        PrintToFile(AudioFeature.Pitch);
     }
 
     /// <summary>
@@ -290,6 +342,19 @@ public class SpeechAnalysis
     {
         float individualIntensity, individualCount, intensity, meanVowelIntensity, meanConsonantIntensity;
         float minVowelIntensity = float.MaxValue, maxVowelIntensity = float.MinValue, minConsonantIntensity = float.MaxValue, maxConsonantIntensity = float.MinValue;
+        totalAudioDuration = frequencies.Keys.Max();
+
+        // calculation of frequency per sliding window
+        List<float>[] intensityPerWindowVowel = new List<float>[((int)totalAudioDuration * 1000) / (int)slidingWindow + 1];
+        List<float>[] intensityPerWindowConsonant = new List<float>[((int)totalAudioDuration * 1000) / (int)slidingWindow + 1];
+        List<float> meanVowelIntensities = new List<float>();
+        List<float> meanConsonantIntensities = new List<float>();
+        for (int i = 0; i < intensityPerWindowVowel.Length; i++)
+        {
+            intensityPerWindowVowel[i] = new List<float>();
+            intensityPerWindowConsonant[i] = new List<float>();
+        }
+
         using (StreamWriter sw = new StreamWriter(decibelFile))
         {
             sw.WriteLine("time intensity phoneme");
@@ -310,6 +375,9 @@ public class SpeechAnalysis
                         {
                             continue;
                         }
+                        int windowIndex = (int)(el.Key * 1000) / (int)slidingWindow;
+                        intensityPerWindowVowel[windowIndex].Add(intensity);
+
                         individualIntensity += intensity;
                         individualCount += 1.0f;
 
@@ -345,6 +413,9 @@ public class SpeechAnalysis
                         {
                             continue;
                         }
+                        int windowIndex = (int)(el.Key * 1000) / (int)slidingWindow;
+                        intensityPerWindowConsonant[windowIndex].Add(intensity);
+
                         individualIntensity += intensity;
                         individualCount += 1.0f;
 
@@ -368,8 +439,36 @@ public class SpeechAnalysis
             sw.Close();
         }
 
-        meanVowelIntensity = GetMeanValue(phonemeTimings, true, AudioFeature.Intensity);
-        meanConsonantIntensity = GetMeanValue(phonemeTimings, false, AudioFeature.Intensity);
+        foreach (List<float> meanIntensity in intensityPerWindowVowel)
+        {
+            float mean = meanIntensity.Sum() / meanIntensity.Count;
+            if (!float.IsNaN(mean))
+            {
+                meanVowelIntensities.Add(meanIntensity.Sum() / meanIntensity.Count);
+            }
+            else
+            {
+                meanVowelIntensities.Add(0);
+            }
+        }
+        foreach (List<float> meanIntensity in intensityPerWindowConsonant)
+        {
+            float mean = meanIntensity.Sum() / meanIntensity.Count;
+            if (!float.IsNaN(mean))
+            {
+                meanConsonantIntensities.Add(meanIntensity.Sum() / meanIntensity.Count);
+            }
+            else
+            {
+                meanConsonantIntensities.Add(0);
+            }
+        }
+
+        // mean pitch for all audio - splitted into custom sliding windows - new implementation
+        MyLipSync.SetMeanIntensities(meanVowelIntensities, meanConsonantIntensities);
+
+        meanVowelIntensity = GetMeanValues(phonemeTimings, true, AudioFeature.Intensity);
+        meanConsonantIntensity = GetMeanValues(phonemeTimings, false, AudioFeature.Intensity);
 
         MyLipSync.setVowelIntensities(minVowelIntensity, meanVowelIntensity, maxVowelIntensity);
         MyLipSync.SetConsonantIntensities(minConsonantIntensity, meanConsonantIntensity, maxConsonantIntensity);
@@ -401,12 +500,13 @@ public class SpeechAnalysis
 
     /// <summary>
     /// Return mean value of the respective audiofeature (feature)
+    /// OLD IMPLEMENTATION (Considered the whole audio)
     /// </summary>
     /// <param name="phonemeTimings"></param>
     /// <param name="isVowel"></param>
     /// <param name="feature"></param>
     /// <returns></returns>
-    float GetMeanValue(List<PhonemeInformation> phonemeTimings, bool isVowel, AudioFeature feature)
+    float GetMeanValues(List<PhonemeInformation> phonemeTimings, bool isVowel, AudioFeature feature)
     {
         float meanSum = 0;
         float count = 0;

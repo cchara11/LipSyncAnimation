@@ -18,6 +18,10 @@ public class MAUS : MonoBehaviour
     MAUSService service;
     PhonemeAnalyzer analyzer;
     SpeechAnalysis speechAnalysis;
+
+    [Header("Sound Analysis - Sliding Window (ms)")]
+    public float slidingWindow;
+
     string audioName, transcriptName, textgridName;
     AudioClip clip;
     List<PhonemeInformation> phonemeTimings;
@@ -52,7 +56,7 @@ public class MAUS : MonoBehaviour
         {
             analyzer = new PhonemeAnalyzer(AudioMode.Natural, clip);
             phonemeTimings = analyzer.ManageTextGridInfo(textgridName);
-            speechAnalysis = new SpeechAnalysis(audioName, phonemeTimings);
+            speechAnalysis = new SpeechAnalysis(audioName, phonemeTimings, slidingWindow);
             speechAnalysis.AnalyzeAudio();
         }
         
@@ -97,7 +101,7 @@ public class MAUS : MonoBehaviour
         
         analyzer = new PhonemeAnalyzer(AudioMode.Natural, clip);
         phonemeTimings = analyzer.ManageTextGridInfo(textgridName);
-        speechAnalysis = new SpeechAnalysis(audioName, phonemeTimings);
+        speechAnalysis = new SpeechAnalysis(audioName, phonemeTimings, slidingWindow);
         speechAnalysis.AnalyzeAudio();
     }
 }

@@ -42,7 +42,7 @@ public class MyLipSync : MonoBehaviour {
 
     // Time
     float audioElapsedTimer = 0.0f;
-    float onset_offset;
+    float onset_offset_Synthetic;
 
     [Header("Read Mode")]
     public AudioMode audioMode;
@@ -68,6 +68,7 @@ public class MyLipSync : MonoBehaviour {
     public static Dictionary<float, float> decibels;
 
     // pitch and intensity
+    public static float slidingWindow;
     static float minVowelPitch, meanVowelPitch, maxVowelPitch;
     static float minVowelIntensity, meanVowelIntensity, maxVowelIntensity;
     static float minConsonantPitch, meanConsonantPitch, maxConsonantPitch;
@@ -75,6 +76,8 @@ public class MyLipSync : MonoBehaviour {
     static float minFrequencyRange; 
     static float maxFrequencyRange;
     static float vowelPitchRatio, vowelIntensityRatio, consonantPitchRatio;
+    static List<float> vowelPitchPerWindow, consonantPitchPerWindow;
+    static List<float> vowelIntensityPerWindow, consonantIntensityPerWindow;
 
     // Transcript
     public List<WordInformation> wordInfo;
@@ -174,7 +177,7 @@ public class MyLipSync : MonoBehaviour {
         // onset_offset for synthetic speech
         if (audioMode.Equals(AudioMode.CereVoice))
         {
-            onset_offset = 0.065f;
+            onset_offset_Synthetic = 0.065f;
         }
 
         // transcript
@@ -428,17 +431,26 @@ public class MyLipSync : MonoBehaviour {
         {
             if (considerFrequency)
             {
+                // get sliding window in which the phoneme start time falls
+                int windowIndex = (int)cPhoneme.startingInterval * 1000 / (int)slidingWindow;
+                float meanPitch, pitchRatio, meanIntensity;
+
                 if (Enum.IsDefined(typeof(Vowel), cPhoneme.text.ToString()))
                 {
+                    meanPitch = vowelPitchPerWindow[windowIndex];
+                    pitchRatio = GetRatio(minVowelPitch, meanPitch, maxVowelPitch);
                     initialWeight = bs.weight * vowelPitchRatio;
-                    targetWeight = GetTargetWeightIntensity(initialWeight, cPhoneme);
-                    float newWeight = GetTargetWeightPitch(initialWeight, cPhoneme);
+                    meanIntensity = vowelIntensityPerWindow[windowIndex];
+                    targetWeight = GetTargetWeightIntensity(initialWeight, cPhoneme, meanIntensity); 
+                    float newWeight = GetTargetWeightPitch(initialWeight, cPhoneme, meanPitch);
                     targetWeight = (targetWeight + newWeight) / 2.0f;
                 }
                 else if (Enum.IsDefined(typeof(PlosiveFricative), cPhoneme.text.ToString()))
                 {
+                    meanPitch = consonantPitchPerWindow[windowIndex];
+                    pitchRatio = GetRatio(minConsonantPitch, meanPitch, maxConsonantPitch);
                     initialWeight = bs.weight * consonantPitchRatio;
-                    targetWeight = GetTargetWeightPitch(initialWeight, cPhoneme);
+                    targetWeight = GetTargetWeightPitch(initialWeight, cPhoneme, meanPitch);
                 }
                 else
                 {
@@ -552,7 +564,7 @@ public class MyLipSync : MonoBehaviour {
     /// </summary>
     /// <param name="weight"></param>
     /// <returns></returns>
-    float GetTargetWeightPitch(float weight, PhonemeInformation phoneme)
+    float GetTargetWeightPitch(float weight, PhonemeInformation phoneme, float meanPitch)
     {
         float newWeight;
         if (Enum.IsDefined(typeof(Vowel), phoneme.text.ToString()))
@@ -561,13 +573,13 @@ public class MyLipSync : MonoBehaviour {
             {
                 return weight;
             }
-            else if (phoneme.meanPitch < meanVowelPitch)
+            else if (phoneme.meanPitch < meanPitch)
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanPitch, minVowelPitch, meanVowelPitch, 0.0f, weight);
+                newWeight = RangeTransformation.Transform(phoneme.meanPitch, minVowelPitch, meanPitch, 0.0f, weight);
             }
             else
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanPitch, meanVowelPitch, maxVowelPitch, weight, 100.0f);
+                newWeight = RangeTransformation.Transform(phoneme.meanPitch, meanPitch, maxVowelPitch, weight, 100.0f);
             }
         }
         else if(Enum.IsDefined(typeof(PlosiveFricative), phoneme.text.ToString()))
@@ -576,13 +588,13 @@ public class MyLipSync : MonoBehaviour {
             {
                 return weight;
             }
-            else if (phoneme.meanPitch < meanConsonantPitch)
+            else if (phoneme.meanPitch < meanPitch)
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanPitch, minConsonantPitch, meanConsonantPitch, 0.0f, weight);
+                newWeight = RangeTransformation.Transform(phoneme.meanPitch, minConsonantPitch, meanPitch, 0.0f, weight);
             }
             else
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanPitch, meanConsonantPitch, maxConsonantPitch, weight, 100.0f);
+                newWeight = RangeTransformation.Transform(phoneme.meanPitch, meanPitch, maxConsonantPitch, weight, 100.0f);
             }
         }
         else
@@ -597,7 +609,7 @@ public class MyLipSync : MonoBehaviour {
     /// </summary>
     /// <param name="weight"></param>
     /// <returns></returns>
-    float GetTargetWeightIntensity(float weight, PhonemeInformation phoneme)
+    float GetTargetWeightIntensity(float weight, PhonemeInformation phoneme, float meanIntensity)
     {
         float newWeight;
         if (Enum.IsDefined(typeof(Vowel), phoneme.text.ToString()))
@@ -606,13 +618,13 @@ public class MyLipSync : MonoBehaviour {
             {
                 return weight;
             }
-            else if (phoneme.meanIntensity < meanVowelIntensity)
+            else if (phoneme.meanIntensity < meanIntensity)
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, minVowelIntensity, meanVowelIntensity, 0.0f, weight);
+                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, minVowelIntensity, meanIntensity, 0.0f, weight);
             }
             else
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, meanVowelIntensity, maxVowelIntensity, weight, 100.0f);
+                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, meanIntensity, maxVowelIntensity, weight, 100.0f);
             }
         }
         else if (Enum.IsDefined(typeof(PlosiveFricative), phoneme.text.ToString()))
@@ -621,13 +633,13 @@ public class MyLipSync : MonoBehaviour {
             {
                 return weight;
             }
-            else if (phoneme.meanIntensity < meanConsonantIntensity)
+            else if (phoneme.meanIntensity < meanIntensity)
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, minConsonantIntensity, meanConsonantIntensity, 0.0f, weight);
+                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, minConsonantIntensity, meanIntensity, 0.0f, weight);
             }
             else
             {
-                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, meanConsonantIntensity, maxConsonantIntensity, weight, 100.0f);
+                newWeight = RangeTransformation.Transform(phoneme.meanIntensity, meanIntensity, maxConsonantIntensity, weight, 100.0f);
             }
         }
         else
@@ -884,7 +896,8 @@ public class MyLipSync : MonoBehaviour {
         else
         {
             minFrequencyRange = 80f;
-            maxFrequencyRange = 255f;
+            //minFrequencyRange = 165f;
+            maxFrequencyRange = 220f;
         }
     }
 
@@ -1122,19 +1135,7 @@ public class MyLipSync : MonoBehaviour {
         minVowelPitch = min;
         meanVowelPitch = mean;
         maxVowelPitch = max;
-        float ratio = RangeTransformation.Transform(meanVowelPitch, minFrequencyRange, maxFrequencyRange, 0, 1);
-        if (ratio < 0)
-        {
-            vowelPitchRatio = 0.2f;
-        }
-        else if (ratio > 1)
-        {
-            vowelPitchRatio = 1;
-        }
-        else
-        {
-            vowelPitchRatio = ratio;
-        }
+        vowelPitchRatio = GetRatio(minFrequencyRange, meanVowelPitch, maxFrequencyRange);
     }
 
     /// <summary>
@@ -1163,19 +1164,41 @@ public class MyLipSync : MonoBehaviour {
         minConsonantPitch = min;
         meanConsonantPitch = mean;
         maxConsonantPitch = max;
-        float ratio = RangeTransformation.Transform(meanConsonantPitch, minFrequencyRange, maxFrequencyRange, 0, 1);
-        if (ratio < 0)
+        consonantPitchRatio = GetRatio(minFrequencyRange, meanConsonantPitch, maxFrequencyRange);
+    }
+
+    /// <summary>
+    /// Returns the ratio of mean value compared to min and max
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="mean"></param>
+    /// <param name="max"></param>
+    /// <returns></returns>
+    static float GetRatio(float min, float mean, float max)
+    {
+        float ratio = RangeTransformation.Transform(mean, min, max, 0, 1);
+        if (ratio <= 0)
         {
-            consonantPitchRatio = 0.2f;
+            return 0.2f;
         }
         else if (ratio > 1)
         {
-            consonantPitchRatio = 1;
+            return 1;
         }
         else
         {
-            consonantPitchRatio = ratio;
+            return ratio;
         }
+    }
+
+    /// <summary>
+    /// Sets mean pitches for specified window intervals 
+    /// </summary>
+    /// <param name="mean"></param>
+    public static void SetMeanPitches(List<float> meanVowel, List<float> meanConsonant)
+    {
+        vowelPitchPerWindow = meanVowel;
+        consonantPitchPerWindow = meanConsonant;
     }
 
     /// <summary>
@@ -1190,6 +1213,16 @@ public class MyLipSync : MonoBehaviour {
         minConsonantIntensity = min;
         meanConsonantIntensity = mean;
         maxConsonantIntensity = max;
+    }
+
+    /// <summary>
+    /// Sets mean intensities for specified window intervals 
+    /// </summary>
+    /// <param name="mean"></param>
+    public static void SetMeanIntensities(List<float> meanVowel, List<float> meanConsonant)
+    {
+        vowelIntensityPerWindow = meanVowel;
+        consonantIntensityPerWindow = meanConsonant;
     }
 
 }
